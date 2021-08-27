@@ -55,22 +55,47 @@ public class Enemy : MonoBehaviour
         }
         target = player.transform;
     }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
+        // Determine where on the enemy the collision occurred  
+        Debug.Log("Exists");
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        // Determine where on the enemy the collision occurred  
+        Debug.Log("Exists");
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        // Determine where on the enemy the collision occurred  
+        Debug.Log("Exists");
+    }
+    private void OnTriggerEnter(Collider other)
+    {        
         if (other.CompareTag("Player"))
         {
             stopMoving = true;
             anim.SetBool("stopMoving", stopMoving);
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            //stopMoving = false;
-            //anim.SetBool("stopMoving", stopMoving);
+            stopMoving = false;
+            anim.SetBool("stopMoving", stopMoving);
         }
+    }
+
+
+
+    private void rotateTowardsPlayer()
+    {
+        // Make enemy look at player
+        var targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+        // Smoothly rotate towards the target point.
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
     public void Update()
@@ -81,10 +106,6 @@ public class Enemy : MonoBehaviour
 
         if (stopMoving)
         {
-            anim.SetFloat("speed", 0f);
-            anim.SetBool("isGalloping", false);
-            anim.SetBool("hasSeenPlayer", hasSeenPlayer);
-            anim.SetBool("isHungry", false);
             return;
         }
 
@@ -96,10 +117,7 @@ public class Enemy : MonoBehaviour
 
             currentSpeed = walkSpeed;
             hasSeenPlayer = true;
-            // Make enemy look at player
-            var targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
-            // Smoothly rotate towards the target point.
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            rotateTowardsPlayer();
 
             if (absZ < chaseDepth || absX < chaseWidth)
             {
