@@ -4,21 +4,32 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField]
+    private float walkSpeed = 4f;
+    [SerializeField]
+    private float gallopSpeed = 4f;
+    [SerializeField]
     private float enemyHealth;
-    private Transform target;
-    public float walkSpeed = 4f;
-    public float gallopSpeed = 4f;
-    public float currentSpeed = 2f;
-    public float rotationSpeed = 0.2f;
+    [SerializeField]
+    private float currentSpeed = 2f;
+    [SerializeField]
+    private float rotationSpeed = 0.2f;
+    private float seenWidth = 5f;
+    private float seenDepth = 5f;
+    private float chaseWidth = 2f;
+    private float chaseDepth = 2f;
+    private bool isGalloping = false;
+    private bool hasSeenPlayer = false;
+    private bool isEating = false;
 
-    public float seenWidth;
-    public float seenDepth;
 
-    public float chaseWidth;
-    public float chaseDepth;
-    public bool isGalloping = false;
+    [SerializeField]
+    public float timeUntilEnemyEats;
+    private float eatTimer = 0f;
 
+    // Gameobjects
     private Player player;
+    private Transform target;
     private PlayListCycler playlist;
     private CharacterController enemyController;
     private Animator anim;
@@ -26,20 +37,22 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         setEnemyHealth(1f);
+
+        // Retrieve game objects
+        enemyController = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
+        player = FindObjectOfType<Player>();
+        if (player == null)
+        {
+            Debug.Log("Could not locate player");
+        }
         playlist = FindObjectOfType<PlayListCycler>();
         if (playlist == null)
         {
             Debug.Log("Could not locate playlist in enemy class");
         }
-        //rigidb = GetComponent<Rigidbody>();
-
-        enemyController = GetComponent<CharacterController>();
-        anim = GetComponent<Animator>();
-
-        player = GameObject.FindObjectOfType<Player>();
         target = player.transform;
     }
-
 
     public void Update()
     {
@@ -47,60 +60,53 @@ public class Enemy : MonoBehaviour
         float absX = Mathf.Abs(dist.x);
         float absZ = Mathf.Abs(dist.z);
 
-
         if (absZ < seenDepth || absX < seenWidth) // Target player by walking
         {
-            currentSpeed = walkSpeed;
-            anim.SetBool("hasSeenPlayer", true);
+            // Stop eating if the player is
+            isEating = false;
+            eatTimer = 0f;
 
+            currentSpeed = walkSpeed;
+            hasSeenPlayer = true;
             // Make enemy look at player
             var targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
             // Smoothly rotate towards the target point.
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            /*
+
             if (absZ < chaseDepth || absX < chaseWidth)
             {
+                currentSpeed = gallopSpeed;
                 isGalloping = true;
-                anim.SetBool("isGalloping", true);
                 // Target player by walking
                 // Move enemy towards location of player
-                transform.position = Vector3.MoveTowards(transform.position, target.position, gallopSpeed * Time.fixedDeltaTime);
-
             }
             else
             {
                 isGalloping = false;
-
-                // Walk animation
-                anim.SetFloat("speed", walkSpeed);
-
             }
-            transform.position = Vector3.MoveTowards(transform.position, target.position, walkSpeed * Time.fixedDeltaTime);
-            anim.SetBool("isGalloping", isGalloping);
-            */
         }
         else
         {
-            anim.SetBool("hasSeenPlayer", false);
-
-            //anim.SetBool("isGalloping", isGalloping);
+            hasSeenPlayer = false;
             currentSpeed = 0f;
+            
+            if (eatTimer >= timeUntilEnemyEats)
+            {
+                // Start eating
+                isEating = true;
+            }
+            else
+            {
+                eatTimer += Time.deltaTime;
+            }
         }
 
         anim.SetFloat("speed", currentSpeed);
-        
-        transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.fixedDeltaTime);
+        anim.SetBool("isGalloping", isGalloping);
+        anim.SetBool("hasSeenPlayer", hasSeenPlayer);
+        anim.SetBool("isHungry", isEating);
 
-    }
-
-
-    public void idle()
-    {
-        // Play idling animation
-    }
-    public void chargeAtPlayer()
-    {
-        // Play charging animation
+        transform.position = Vector3.MoveTowards(transform.position, transform.position, currentSpeed * Time.fixedDeltaTime);
     }
 
     public void setEnemyHealth(float val)
@@ -114,7 +120,7 @@ public class Enemy : MonoBehaviour
         return enemyHealth;
     }
     public bool takeDamage(float damageAmount)
-    { 
+    {
         float res = enemyHealth - damageAmount;
         if (res >= 0f)
         {
