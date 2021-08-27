@@ -6,13 +6,22 @@ public class Enemy : MonoBehaviour
 {
     private float enemyHealth;
     private Transform target;
-    public float speed = 4f;
+    public float walkSpeed = 4f;
+    public float gallopSpeed = 4f;
+    public float currentSpeed = 2f;
     public float rotationSpeed = 0.2f;
-    public Rigidbody rigidb;
+
+    public float seenWidth;
+    public float seenDepth;
+
+    public float chaseWidth;
+    public float chaseDepth;
+    public bool isGalloping = false;
+
     private Player player;
     private PlayListCycler playlist;
-
     private CharacterController enemyController;
+    private Animator anim;
 
     void Start()
     {
@@ -25,6 +34,7 @@ public class Enemy : MonoBehaviour
         //rigidb = GetComponent<Rigidbody>();
 
         enemyController = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
 
         player = GameObject.FindObjectOfType<Player>();
         target = player.transform;
@@ -33,23 +43,54 @@ public class Enemy : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        Vector3 dist = target.transform.position - transform.position;
+        float absX = Mathf.Abs(dist.x);
+        float absZ = Mathf.Abs(dist.z);
+
+
+        if (absZ < seenDepth || absX < seenWidth) // Target player by walking
         {
-            //transform.position += new Vector3(0f, 0f, 3f);
-            transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime);
-            //enemyController.Move(pos);
+            currentSpeed = walkSpeed;
+            anim.SetBool("hasSeenPlayer", true);
+
+            // Make enemy look at player
+            var targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+            // Smoothly rotate towards the target point.
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            /*
+            if (absZ < chaseDepth || absX < chaseWidth)
+            {
+                isGalloping = true;
+                anim.SetBool("isGalloping", true);
+                // Target player by walking
+                // Move enemy towards location of player
+                transform.position = Vector3.MoveTowards(transform.position, target.position, gallopSpeed * Time.fixedDeltaTime);
+
+            }
+            else
+            {
+                isGalloping = false;
+
+                // Walk animation
+                anim.SetFloat("speed", walkSpeed);
+
+            }
+            transform.position = Vector3.MoveTowards(transform.position, target.position, walkSpeed * Time.fixedDeltaTime);
+            anim.SetBool("isGalloping", isGalloping);
+            */
         }
-        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime);
-        //transform.LookAt(target);
+        else
+        {
+            anim.SetBool("hasSeenPlayer", false);
 
-        // Move enemy towards location of player
-        Vector3 pos = Vector3.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime);
+            //anim.SetBool("isGalloping", isGalloping);
+            currentSpeed = 0f;
+        }
 
-        // Make enemy look at player
-        var targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+        anim.SetFloat("speed", currentSpeed);
+        
+        transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.fixedDeltaTime);
 
-        // Smoothly rotate towards the target point.
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
 
