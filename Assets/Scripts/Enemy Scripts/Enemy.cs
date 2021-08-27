@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
     private Player player;
     private PlayListCycler playlist;
 
+    private CharacterController enemyController;
+
     void Start()
     {
         setEnemyHealth(1f);
@@ -20,7 +22,10 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("Could not locate playlist in enemy class");
         }
-        rigidb = GetComponent<Rigidbody>();
+        //rigidb = GetComponent<Rigidbody>();
+
+        enemyController = GetComponent<CharacterController>();
+
         player = GameObject.FindObjectOfType<Player>();
         target = player.transform;
     }
@@ -28,17 +33,23 @@ public class Enemy : MonoBehaviour
 
     public void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            //transform.position += new Vector3(0f, 0f, 3f);
+            transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime);
+            //enemyController.Move(pos);
+        }
+        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime);
+        //transform.LookAt(target);
+
         // Move enemy towards location of player
         Vector3 pos = Vector3.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime);
-        rigidb.MovePosition(pos);
 
         // Make enemy look at player
-        //var targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+        var targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
 
         // Smoothly rotate towards the target point.
-        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        transform.LookAt(target);
-        //transform.Translate(Vector3.forward * 3 * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
 
