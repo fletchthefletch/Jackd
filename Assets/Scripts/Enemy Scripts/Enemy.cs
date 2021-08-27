@@ -22,9 +22,11 @@ public class Enemy : MonoBehaviour
     private bool hasSeenPlayer = false;
     private bool isEating = false;
 
+    private bool stopMoving = false;
+
 
     [SerializeField]
-    public float timeUntilEnemyEats;
+    private float timeUntilEnemyEats = 3f;
     private float eatTimer = 0f;
 
     // Gameobjects
@@ -54,11 +56,37 @@ public class Enemy : MonoBehaviour
         target = player.transform;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            stopMoving = true;
+            anim.SetBool("stopMoving", stopMoving);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            //stopMoving = false;
+            //anim.SetBool("stopMoving", stopMoving);
+        }
+    }
+
     public void Update()
     {
         Vector3 dist = target.transform.position - transform.position;
         float absX = Mathf.Abs(dist.x);
         float absZ = Mathf.Abs(dist.z);
+
+        if (stopMoving)
+        {
+            anim.SetFloat("speed", 0f);
+            anim.SetBool("isGalloping", false);
+            anim.SetBool("hasSeenPlayer", hasSeenPlayer);
+            anim.SetBool("isHungry", false);
+            return;
+        }
 
         if (absZ < seenDepth || absX < seenWidth) // Target player by walking
         {
