@@ -68,7 +68,6 @@ public class Enemy : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         // Determine where on the enemy the collision occurred  
-        Debug.Log("Exists");
     }
     private void OnTriggerEnter(Collider other)
     {        
