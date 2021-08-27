@@ -37,7 +37,7 @@ public class MainGame : MonoBehaviour
         playlist.playNextSongInPlaylist();
         fadeScene.fadeInCurrentScene();
         player = FindObjectOfType<Player>();
-        gameObjectives = new Objectives();
+        gameObjectives = FindObjectOfType<Objectives>();
         exiter = FindObjectOfType<ExitToMenu>();
     }
 

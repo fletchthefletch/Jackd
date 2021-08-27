@@ -4,6 +4,7 @@ using UnityEngine;
 public class Objectives : MonoBehaviour
 {
     private List<Objective> objectives = new List<Objective>();
+
     private int currentObjective;
     [SerializeField]
     private GameObject beans;
