@@ -106,7 +106,7 @@ public class Enemy : MonoBehaviour
         anim.SetBool("hasSeenPlayer", hasSeenPlayer);
         anim.SetBool("isHungry", isEating);
 
-        transform.position = Vector3.MoveTowards(transform.position, transform.position, currentSpeed * Time.fixedDeltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.fixedDeltaTime);
     }
 
     public void setEnemyHealth(float val)

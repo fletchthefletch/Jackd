@@ -3548,7 +3548,7 @@ MonoBehaviour:
   enemyHealth: 1
   currentSpeed: 0
   rotationSpeed: 2
-  timeUntilEnemyEats: 0
+  timeUntilEnemyEats: 5
 --- !u!1 &496272499
 GameObject:
   m_ObjectHideFlags: 0
