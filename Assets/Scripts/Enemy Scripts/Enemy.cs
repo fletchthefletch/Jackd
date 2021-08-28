@@ -5,29 +5,37 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private float walkSpeed = 4f;
+    private float walkSpeed = 1.4f;
     [SerializeField]
-    private float gallopSpeed = 4f;
+    private float gallopSpeed = 2.1f;
     [SerializeField]
     private float enemyHealth;
     [SerializeField]
-    private float currentSpeed = 2f;
+    private float currentSpeed = 0f;
     [SerializeField]
-    private float rotationSpeed = 0.2f;
-    private float seenWidth = 5f;
-    private float seenDepth = 5f;
-    private float chaseWidth = 2f;
-    private float chaseDepth = 2f;
+    private float rotationSpeed = 2f;
+
+    [SerializeField]
+    private float seenDepth = 10.0f;
+    [SerializeField]
+    private float chaseDepth;
+
+    [SerializeField]
     private bool isGalloping = false;
+    [SerializeField]
     private bool hasSeenPlayer = false;
+    [SerializeField]
     private bool isEating = false;
 
     private bool stopMoving = false;
+    private bool kickToggle = false;
 
 
     [SerializeField]
-    private float timeUntilEnemyEats = 3f;
+    private float timeUntilEnemyEats = 5f;
     private float eatTimer = 0f;
+    private float sqrLen;
+    private Vector3 dist;
 
     // Gameobjects
     private Player player;
@@ -35,6 +43,7 @@ public class Enemy : MonoBehaviour
     private PlayListCycler playlist;
     private CharacterController enemyController;
     private Animator anim;
+
 
     void Start()
     {
@@ -54,27 +63,37 @@ public class Enemy : MonoBehaviour
             Debug.Log("Could not locate playlist in enemy class");
         }
         target = player.transform;
+
+        chaseDepth = seenDepth / 2f;
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        // Determine where on the enemy the collision occurred  
-        Debug.Log("Exists");
-    }
-    private void OnCollisionStay(Collision collision)
-    {
-        // Determine where on the enemy the collision occurred  
-        Debug.Log("Exists");
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        // Determine where on the enemy the collision occurred  
-    }
+
+
     private void OnTriggerEnter(Collider other)
-    {        
+    {     
         if (other.CompareTag("Player"))
         {
+            // Check the angle
+            float dot = Vector3.Dot(transform.forward, 
+               (target.position - transform.position).normalized);
+
+            // Get back fan
+            // Get front fan
+            if (dot < -0.5)
+            {
+                // Kick
+               // kickToggle = true;
+            }
+            else 
+            {
+             //   kickToggle = false;
+            }
+            //Debug.Log(dot.ToString());
+            
+
             stopMoving = true;
-            anim.SetBool("stopMoving", stopMoving);
+            //anim.SetBool("kickToggle", kickToggle);
+            //anim.SetBool("stopMoving", stopMoving);
+            
         }
     }
 
@@ -82,12 +101,11 @@ public class Enemy : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            
             stopMoving = false;
-            anim.SetBool("stopMoving", stopMoving);
+            //anim.SetBool("stopMoving", stopMoving);
         }
     }
-
-
 
     private void rotateTowardsPlayer()
     {
@@ -97,14 +115,19 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
-    public void Update()
+    /*
+    public void Update1()
     {
-        Vector3 dist = target.transform.position - transform.position;
+        Vector3 dist = (target.transform.position - transform.position).normalized;
         float absX = Mathf.Abs(dist.x);
         float absZ = Mathf.Abs(dist.z);
 
+        currentSpeed = 0f;
+        hasSeenPlayer = false;
+
         if (stopMoving)
         {
+            isEating = false;
             return;
         }
 
@@ -114,7 +137,6 @@ public class Enemy : MonoBehaviour
             isEating = false;
             eatTimer = 0f;
 
-            currentSpeed = walkSpeed;
             hasSeenPlayer = true;
             rotateTowardsPlayer();
 
@@ -128,12 +150,12 @@ public class Enemy : MonoBehaviour
             else
             {
                 isGalloping = false;
+                currentSpeed = walkSpeed;
             }
         }
         else
         {
-            hasSeenPlayer = false;
-            currentSpeed = 0f;
+            isGalloping = false;
             
             if (eatTimer >= timeUntilEnemyEats)
             {
@@ -151,6 +173,87 @@ public class Enemy : MonoBehaviour
         anim.SetBool("hasSeenPlayer", hasSeenPlayer);
         anim.SetBool("isHungry", isEating);
 
+        transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.fixedDeltaTime);
+    }
+    */
+
+    public void Update()
+    {
+        if (stopMoving)
+        {
+            return;
+        }
+
+        dist = target.transform.position - transform.position;
+        sqrLen = dist.sqrMagnitude;
+
+        if (sqrLen > seenDepth * seenDepth)
+        {
+           // resetEverything();
+            anim.SetBool("hasSeenPlayer", false);
+            anim.SetBool("isGalloping", false);
+            currentSpeed = 0f;
+
+            if (eatTimer >= timeUntilEnemyEats)
+            {
+                // Start eating
+                anim.SetBool("isHungry", true);
+            }
+            else
+            {
+                eatTimer += Time.deltaTime;
+            }
+            return; // We don't care about the player's position
+        }
+        
+        // Face player
+        rotateTowardsPlayer();
+
+        if (sqrLen < seenDepth * seenDepth)
+        {
+            runTowardsPlayer();
+            return;
+        }
+   }
+    private void resetEverything()
+    {
+        walkSpeed = 1.4f;
+gallopSpeed = 2.1f;
+ currentSpeed = 0f;
+rotationSpeed = 2f;
+
+seenDepth = 10.0f;
+ chaseDepth = seenDepth / 2f;
+
+ isGalloping = false;
+ hasSeenPlayer = false;
+    isEating = false;
+    }
+
+    private void walkTowardsPlayer()
+    {
+        // Start walking towards player
+        anim.SetBool("hasSeenPlayer", true);
+        anim.SetBool("isHungry", false);
+        anim.SetBool("isGalloping", false);
+        currentSpeed = walkSpeed;
+        eatTimer = 0f;
+        updatePosition();
+    }
+    private void runTowardsPlayer()
+    {
+        // Start walking towards player
+        anim.SetBool("hasSeenPlayer", true);
+        anim.SetBool("isGalloping", true);
+        anim.SetBool("isHungry", false);
+        currentSpeed = gallopSpeed;
+        eatTimer = 0f;
+        updatePosition();
+    }
+
+    private void updatePosition()
+    {
+        // Move enemy
         transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.fixedDeltaTime);
     }
 
