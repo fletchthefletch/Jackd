@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Challenge_Advanced_PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     private Player player;
 
@@ -18,10 +18,10 @@ public class Challenge_Advanced_PlayerController : MonoBehaviour
     public float m_speed = 0f;
 
     // Walk speed
-    public float m_walkSpeed = 3f;
+    public float m_walkSpeed = 2f;
 
     // Run speed
-    public float m_runSpeed = 6f;
+    public float m_runSpeed = 4f;
 
     // Vertical speed
     public float m_speedY = 3f;

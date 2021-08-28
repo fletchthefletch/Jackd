@@ -10178,7 +10178,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: 0.0024714519, y: -0.122505784, z: 0.00030506594, w: 0.9924647}
+  m_LocalRotation: {x: 0.0024653804, y: -0.14074495, z: 0.00035047962, w: 0.9900428}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11122,31 +11122,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &755216013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148970458272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c077fff494276042ac10f6fde2f0379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 755216014}
-  animator: {fileID: 755216012}
-  pauseMenu: {fileID: 1299660079}
-  m_speed: 0
-  m_walkSpeed: 3
-  m_runSpeed: 6
-  m_speedY: 3
-  m_jumpHeight: 5
-  m_jumpControlAmount: 2
-  m_turnSpeed: 300
-  m_moveState: 0
-  smoothSpeed: 200
-  cam: {fileID: 1155955485}
 --- !u!143 &755216014
 CharacterController:
   m_ObjectHideFlags: 0
@@ -13714,7 +13689,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155955481}
-  m_LocalRotation: {x: 0.16941176, y: -0.09911875, z: 0.017127603, w: 0.9803988}
+  m_LocalRotation: {x: 0.16941176, y: -0.09911871, z: 0.017127598, w: 0.9803988}
   m_LocalPosition: {x: -266.78134, y: 2.29, z: 13.592766}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -15885,7 +15860,7 @@ Transform:
   - {fileID: 1114104088}
   - {fileID: 1299660078}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1570771011 stripped
 Transform:
@@ -16380,7 +16355,7 @@ Transform:
   - {fileID: 687766454}
   - {fileID: 590029950}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1629599626 stripped
 Transform:
@@ -16667,7 +16642,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661882869}
-  m_LocalRotation: {x: 0.16941176, y: -0.09911875, z: 0.017127603, w: 0.9803988}
+  m_LocalRotation: {x: 0.16941176, y: -0.09911871, z: 0.017127598, w: 0.9803988}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -20054,9 +20029,9 @@ GameObject:
   - component: {fileID: 543450652709672474}
   - component: {fileID: 755216014}
   - component: {fileID: 755216012}
-  - component: {fileID: 755216013}
   - component: {fileID: 755216015}
   - component: {fileID: 919132148970458273}
+  - component: {fileID: 919132148970458274}
   m_Layer: 0
   m_Name: kaya@Breathing Idle
   m_TagString: Player
@@ -20077,6 +20052,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.71, y: 2.06, z: 0.69}
   m_Center: {x: 0, y: 1.13, z: -0.12}
+--- !u!114 &919132148970458274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148970458272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c077fff494276042ac10f6fde2f0379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 755216014}
+  animator: {fileID: 755216012}
+  pauseMenu: {fileID: 1299660079}
+  m_speed: 0
+  m_walkSpeed: 3
+  m_runSpeed: 6
+  m_speedY: 3
+  m_jumpHeight: 5
+  m_jumpControlAmount: 2
+  m_turnSpeed: 300
+  m_moveState: 0
+  smoothSpeed: 0
+  cam: {fileID: 1155955485}
 --- !u!1 &920437769074474149
 GameObject:
   m_ObjectHideFlags: 0
