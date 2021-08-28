@@ -5,32 +5,33 @@ public class Challenge_Advanced_PlayerController : MonoBehaviour
     private Player player;
 
     // Reference to the controller
-    public CharacterController controller;
+    [SerializeField]
+    private CharacterController controller;
 
-    // Reference to the Animator component
-    public Animator animator;
+    [SerializeField]
+    private Animator animator;
 
     [SerializeField]
     private PauseMenu pauseMenu;
 
     // Current Player Speed
-    public float m_speed = 10;
+    public float m_speed = 0f;
 
     // Walk speed
-    public float m_walkSpeed = 2;
+    public float m_walkSpeed = 3f;
 
     // Run speed
-    public float m_runSpeed = 6;
+    public float m_runSpeed = 6f;
 
     // Vertical speed
-    public float m_speedY;
+    public float m_speedY = 3f;
 
     //Jump height
-    public float m_jumpHeight = 10;
-    public float m_jumpControlAmount = 3f;
+    public float m_jumpHeight = 5f;
+    public float m_jumpControlAmount = 2f;
 
     // Turn Speed
-    public float m_turnSpeed;
+    public float m_turnSpeed = 300f;
 
     // Movement direction of the player
     private Vector3 movement, movementJump;
@@ -43,7 +44,6 @@ public class Challenge_Advanced_PlayerController : MonoBehaviour
     private const float GRAVITY_STICK = 0.3f;
 
     private Transform playerCam;
-    private Challenge_Advanced_CameraController m_cameraController;
 
     // Player state
     public enum MoveState
@@ -63,15 +63,13 @@ public class Challenge_Advanced_PlayerController : MonoBehaviour
 
     // Main game camera
     [SerializeField] 
-    Camera cam;
+    private Camera cam;
 
     private PlayListCycler playlist;
 
     void Start()
     {
-        //Fetch the CharacterController component 
         controller = GetComponent<CharacterController>();
-
         //Fetch the Animator component
         animator = GetComponent<Animator>();
 
@@ -80,10 +78,6 @@ public class Challenge_Advanced_PlayerController : MonoBehaviour
 
         // Get main camera
         playerCam = cam.transform;
-
-        //Get the Camera Controller component 
-        m_cameraController = playerCam.GetComponent<Challenge_Advanced_CameraController>();
-
         m_moveState = MoveState.Idle;
 
         // Get playlist
@@ -102,22 +96,17 @@ public class Challenge_Advanced_PlayerController : MonoBehaviour
     {
         if (pauseMenu.isOpen())
         {
-            return; // Do not update player rotation and state
+            animator.SetFloat("speed", 0f);
+            return; // Do not update player and state
         }
-            // Update current player state
-            UpdatePlayerState();
+        // Update current player state and movement
+        UpdatePlayerState();
+        UpdateHorizontalMovement();
+        UpdateVerticalMovement();
+        UpdateRotation();
 
-            // Left-Right, Forward-Backward movement
-            UpdateHorizontalMovement();
-
-            // Jump 
-            UpdateVerticalMovement();
-
-            // Rotate player
-            UpdateRotation();
-
-            // Move   
-            controller.Move(movement * Time.deltaTime + movementJump * Time.deltaTime);
+        // Move   
+        controller.Move(movement * Time.deltaTime + movementJump * Time.deltaTime);
     }
 
     private void UpdateRotation()
@@ -126,11 +115,10 @@ public class Challenge_Advanced_PlayerController : MonoBehaviour
         {
             //Calcuate the angle required to rotate based on the given direction
             float turnAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
-
             Quaternion targetRotation = Quaternion.Euler(0 , turnAngle, 0);
 
             // Smoothly Interpolate from current rotation to target rotation with the given turn speed amount 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, m_turnSpeed * Time.deltaTime);           
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, m_turnSpeed * Time.deltaTime);
         }
     }
 
@@ -143,40 +131,29 @@ public class Challenge_Advanced_PlayerController : MonoBehaviour
         movement.x = inputDirection.x * m_speed;
         movement.z = inputDirection.z * m_speed;
         movement = inputDirection.normalized * m_speed;
-        movement = (playerCam.forward * inputDirection.z + playerCam.right * inputDirection.x) * m_speed;       
+        movement = (playerCam.forward * inputDirection.z + playerCam.right * inputDirection.x) * m_speed;
+        animator.SetFloat("speed", m_speed);
     }
 
-
-    //Handles the jumping functionality
     private void UpdateVerticalMovement()
     {
-        //Player is on ground, then only check for jump input
         if (controller.isGrounded)
         {
-            //Common hack used to make sure the player is always sticked to the ground when on ground
-            //Sometimes, isgrounded does not work correctly and the player keeps floating in air
-           m_speedY = -GRAVITY * GRAVITY_STICK;
-        
-           animator.SetBool("jump", false);
+            m_speedY = -GRAVITY * GRAVITY_STICK;
+            animator.SetBool("jump", false);
 
             //If we press space and not already jumping and if we are not crawling or crouching, then jump
             if (Input.GetKeyDown(KeyCode.Space) && !animator.GetBool("jump")) 
             {
-                //Simple jump
-                //m_speedY = m_jumpHeight;
-
-                //More Controlled jump (proportionate to our defined gravity value)
-                movement.y += Mathf.Sqrt(m_jumpHeight * m_jumpControlAmount * GRAVITY);
-
+                // Jump
+                m_speedY = m_jumpHeight;
                 animator.SetBool("jump", true);
                 m_moveState = MoveState.Jump;       
             }
         }
-        //Player is airborne
         else
         {
             m_moveState = MoveState.Jump;
-            //Apply gravity so that the player falls back to the ground
             m_speedY -= GRAVITY * Time.deltaTime;
         }      
         movementJump.y = m_speedY;
@@ -192,15 +169,16 @@ public class Challenge_Advanced_PlayerController : MonoBehaviour
             //If we have some input then check for Run or Walk states
             if (inputDirection != Vector3.zero)
             {
-                // Walk when key pressed
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
+                    // Run
                     m_speed = m_runSpeed;
                     m_moveState = MoveState.Run;
                     animator.SetBool("running", true);
                 } 
                 else
                 {
+                    // Walk
                     m_speed = m_walkSpeed;
                     m_moveState = MoveState.Walk;
                     animator.SetBool("running", false);
