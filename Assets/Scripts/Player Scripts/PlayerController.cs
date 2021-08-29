@@ -45,6 +45,11 @@ public class PlayerController : MonoBehaviour
 
     private Transform playerCam;
 
+    // Variables for falling
+    [SerializeField]
+    private GameObject fallPrep;
+    private float fallBuffer = 2f;
+
     // Player state
     public enum MoveState
     {
@@ -217,12 +222,20 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // Falling / Jumping
             m_moveState = MoveState.Jump;
             m_speedY -= GRAVITY * Time.deltaTime;
-            if (transform.position.y > 10f)
+            if (transform.position.y > 10f && !animator.GetBool("canFall"))
             {
                 animator.SetBool("canFall", true);
 
+            }
+            if (animator.GetBool("canFall"))
+            {
+                if (fallPrep.transform.position.y < fallBuffer)
+                {
+                    animator.SetBool("canFall", false);
+                }
             }
         }
         movementJump.y = m_speedY;

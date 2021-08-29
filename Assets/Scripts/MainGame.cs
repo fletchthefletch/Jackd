@@ -17,7 +17,7 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     private Text moneyText;
     [SerializeField]
-    private float timeUntilExitAfterVictory;
+    private float timeUntilExitAfterVictory = 7f;
     [SerializeField]
     private ExitToMenu exiter;
     [SerializeField]
@@ -30,6 +30,7 @@ public class MainGame : MonoBehaviour
     private Color victoryColor;
     [SerializeField]
     private Color failureColor;
+ 
 
     void Start()
     {
@@ -89,8 +90,8 @@ public class MainGame : MonoBehaviour
         Color temp =  waveBannerImage.color;
         waveBannerImage.color = victoryColor;
         waveBannerText.text = "Victory!";
-        playlist.fadeOutSoundsExcept("victory", 1f);
-        playlist.playInteractionSound("victory", false);
+        playlist.fadeOutSoundsExcept("victory", 2f);
+        playlist.playInteractionSound("victory", true);
         
         // Wait N seconds
         yield return new WaitForSeconds(timeUntilExitAfterVictory);
