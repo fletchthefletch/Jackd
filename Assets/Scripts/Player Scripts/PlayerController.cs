@@ -114,9 +114,14 @@ public class PlayerController : MonoBehaviour
         // Play climbing sound
         playlist.playPlayerSound("Climb", true);
     }
+    private void UpdateAudio()
+    { 
+        
+    }
 
     void Update()
     {
+        UpdateAudio();
         if (transform.position.y > maxClimbHeight)
         {
             if (!hasWon)

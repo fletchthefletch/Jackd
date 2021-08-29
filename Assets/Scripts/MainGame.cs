@@ -86,7 +86,6 @@ public class MainGame : MonoBehaviour
         }
 
         // Check player health - if player health is <= 0, player has lost the game
-       
         if (player.getPlayerHealth() <= 0f)
         {
             if (!playerDefeated)

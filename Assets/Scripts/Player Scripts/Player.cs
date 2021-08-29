@@ -10,13 +10,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private PlayerCanvas playerUI;
     private PlayListCycler playlist;
+    private AudioSource heartbeatSrc;
 
     void Start()
     {
         setPlayerHealth(playerHealth);
         setPlayerScore(0);
         playlist = FindObjectOfType<PlayListCycler>();
-
+        heartbeatSrc = playlist.getSoundSource("heartbeat", "PLAYER");
+        heartbeatSrc.loop = true;
     }
     public void setPlayerScore(int scoreIncrement)
     {
@@ -50,7 +52,25 @@ public class Player : MonoBehaviour
     }
     public bool takeDamage(float damageAmount) // Returns true if player is still alive; false otherwise
     {
+
+        playlist.playPlayerSound("HurtPlayer", true);
         float res = playerHealth - damageAmount;
+        if (res <= 0.5f)
+        {
+            if (heartbeatSrc.isPlaying)
+            {
+                // Increase volume
+                if (heartbeatSrc.volume <= 0.75f)
+                {
+                    heartbeatSrc.volume += 0.25f;
+                }
+            }
+            else
+            {
+                // Start playing clip
+                heartbeatSrc.PlayOneShot(heartbeatSrc.clip);
+            }
+        }
         if (res >= 0f)
         {
             setPlayerHealth(res);
@@ -62,12 +82,26 @@ public class Player : MonoBehaviour
             // Player is dead!
             setPlayerHealth(0f);
             return false;
-            
         }
     }
     public void heal(float healAmount)
     {
         float res = playerHealth + healAmount;
+
+        if (heartbeatSrc.isPlaying)
+        {
+            // Increase volume
+            if (heartbeatSrc.volume >= 0.25f)
+            {
+                heartbeatSrc.volume -= 0.25f;
+            }
+            if (heartbeatSrc.volume == 0f)
+            {
+
+                heartbeatSrc.Stop();
+                heartbeatSrc.volume = 0.25f;
+            }
+        }
         if (res <= 1f)
         {
             setPlayerHealth(res);

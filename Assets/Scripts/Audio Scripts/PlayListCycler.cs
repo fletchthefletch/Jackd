@@ -66,6 +66,73 @@ public class PlayListCycler : MonoBehaviour
         currentFXvolume = value;
     }
 
+    public void setVolumeForSound(string soundname, string type, float val)
+    {
+        Sound s = null;
+        switch (type)
+        {
+            case "PLAYER":
+                s = playerSounds.Find(x => x.name == soundname);
+                break;
+            case "MAIN":
+                s = mainPlayList.Find(x => x.name == soundname);
+                break;
+            case "INTERACTION":
+                s = interactionSounds.Find(x => x.name == soundname);
+                break;
+        }
+        if (s == null)
+        {
+            // Sound could not be located
+            return;
+        }
+        // Set volume level
+        s.mySource.volume = val;
+    }
+    public AudioSource getSoundSource(string soundname, string type)
+    {
+        Sound s = null;
+        switch (type)
+        {
+            case "PLAYER":
+                s = playerSounds.Find(x => x.name == soundname);
+                break;
+            case "MAIN":
+                s = mainPlayList.Find(x => x.name == soundname);
+                break;
+            case "INTERACTION":
+                s = interactionSounds.Find(x => x.name == soundname);
+                break;
+        }
+        if (s == null)
+        {
+            // Sound could not be located
+            return null;
+        }
+        return s.mySource;
+    }
+    public AudioClip getSound(string soundname, string type)
+    {
+        Sound s = null;
+        switch (type)
+        {
+            case "PLAYER":
+                s = playerSounds.Find(x => x.name == soundname);
+                break;
+            case "MAIN":
+                s = mainPlayList.Find(x => x.name == soundname);
+                break;
+            case "INTERACTION":
+                s = interactionSounds.Find(x => x.name == soundname);
+                break;
+        }
+        if (s == null)
+        {
+            // Sound could not be located
+            return null;
+        }
+        return s.mySource.clip;
+    }
 
     public void playNextSongInPlaylist()
     {
