@@ -57,6 +57,7 @@ public class MainGame : MonoBehaviour
             }
         }
 
+     
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (player.takeDamage(0.15f))
@@ -97,8 +98,6 @@ public class MainGame : MonoBehaviour
         waveBannerImage.color = temp;
         waveBannerUI.SetActive(false);
     }
-
-
     public void playerCompletedObjective() 
     {
         int scoreIncrement = gameObjectives.getCurrentObjectivePointsForCompleting();

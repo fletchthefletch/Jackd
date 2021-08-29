@@ -107,6 +107,7 @@ public class PlayerController : MonoBehaviour
     public void playClimb()
     {
         // Play climbing sound
+        playlist.playPlayerSound("Climb", true);
     }
 
     void Update()
@@ -166,7 +167,7 @@ public class PlayerController : MonoBehaviour
             // Climbing sound
             animator.SetBool("isClimbing", true);
         }
-        
+
         else
         {
             // Stop climbing animation
@@ -180,7 +181,6 @@ public class PlayerController : MonoBehaviour
         m_speedY = climbRate;
         movementJump.y = m_speedY;
         controller.Move(movement * Time.deltaTime + movementJump * Time.deltaTime);
-        playClimb();
     }
 
     private void UpdateHorizontalMovement()
@@ -204,6 +204,7 @@ public class PlayerController : MonoBehaviour
         {
             m_speedY = -GRAVITY * GRAVITY_STICK;
             animator.SetBool("jump", false);
+            animator.SetBool("canFall", false);
 
             //If we press space and not already jumping and if we are not crawling or crouching, then jump
             if (Input.GetKeyDown(KeyCode.Space) && !animator.GetBool("jump")) 
@@ -218,7 +219,12 @@ public class PlayerController : MonoBehaviour
         {
             m_moveState = MoveState.Jump;
             m_speedY -= GRAVITY * Time.deltaTime;
-        }      
+            if (transform.position.y > 10f)
+            {
+                animator.SetBool("canFall", true);
+
+            }
+        }
         movementJump.y = m_speedY;
     }
 
