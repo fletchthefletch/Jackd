@@ -122,8 +122,6 @@ public class PlayerController : MonoBehaviour
             if (!hasWon)
             {
                 // Player has won
-                // Stop climbing animation
-                // Stop climbing sound
                 game.playerCompletedObjective();
                 animator.SetBool("isClimbing", false);
                 animator.SetBool("victory", true);
@@ -147,7 +145,8 @@ public class PlayerController : MonoBehaviour
         }
         UpdateVerticalMovement();
         UpdateRotation();
-        // Move   
+        
+        // Main Move   
         controller.Move(movement * Time.deltaTime + movementJump * Time.deltaTime);
     }
  
@@ -200,7 +199,6 @@ public class PlayerController : MonoBehaviour
         movement = (playerCam.forward * inputDirection.z + playerCam.right * inputDirection.x) * m_speed;
         animator.SetFloat("speed", m_speed);
     }
-
 
     private void UpdateVerticalMovement()
     {

@@ -19,6 +19,8 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     private float timeUntilExitAfterVictory = 7f;
     [SerializeField]
+    private float timeUntilExitAfterDefeat = 4f;
+    [SerializeField]
     private ExitToMenu exiter;
     [SerializeField]
     private GameObject waveBannerUI;
@@ -30,7 +32,9 @@ public class MainGame : MonoBehaviour
     private Color victoryColor;
     [SerializeField]
     private Color failureColor;
- 
+    private bool playerDefeated = false;
+
+
 
     void Start()
     {
@@ -57,7 +61,6 @@ public class MainGame : MonoBehaviour
                 pauseMenu.closePauseMenu();
             }
         }
-
      
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -81,18 +84,45 @@ public class MainGame : MonoBehaviour
             player.heal(0.05f);
             Debug.Log("Healing player...");
         }
+
+        // Check player health - if player health is <= 0, player has lost the game
+       
+        if (player.getPlayerHealth() <= 0f)
+        {
+            if (!playerDefeated)
+            {
+                StartCoroutine(playerHasLost());
+                playerDefeated = true;
+            }
+        }
+    }
+    private IEnumerator playerHasLost()
+    {
+        waveBannerUI.SetActive(true);
+        // Show victory banner
+        Color temp = waveBannerImage.color;
+        waveBannerImage.color = failureColor;
+        waveBannerText.text = "- Defeat -";
+        playlist.playInteractionSound("Defeat", true);
+        playlist.fadeOutSoundsExcept("Defeat", 1f);
+
+        // Wait N seconds
+        yield return new WaitForSeconds(timeUntilExitAfterDefeat);
+        exiter.exitToMenu();
+        waveBannerImage.color = temp;
+        waveBannerUI.SetActive(false);
     }
 
-    public IEnumerator playerHasWon()
+    private IEnumerator playerHasWon()
     {
         waveBannerUI.SetActive(true);
         // Show victory banner
         Color temp =  waveBannerImage.color;
         waveBannerImage.color = victoryColor;
         waveBannerText.text = "Victory!";
-        playlist.fadeOutSoundsExcept("victory", 2f);
         playlist.playInteractionSound("victory", true);
-        
+        playlist.fadeOutSoundsExcept("victory", 2f);
+
         // Wait N seconds
         yield return new WaitForSeconds(timeUntilExitAfterVictory);
         exiter.exitToMenu();

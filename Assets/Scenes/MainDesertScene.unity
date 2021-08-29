@@ -1070,6 +1070,12 @@ MonoBehaviour:
     volume: 1
     pitch: 0.25
     mySource: {fileID: 0}
+  - name: Defeat
+    soundClass: INTERACTION
+    clip: {fileID: 8300000, guid: cabfae866cab347928b74b7d0ca6bfa9, type: 3}
+    volume: 1
+    pitch: 0.5
+    mySource: {fileID: 0}
 --- !u!4 &200168540 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 420546, guid: a45f923de9555884cbe160883ce87a74, type: 3}
@@ -3655,7 +3661,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590029948}
-  m_LocalRotation: {x: 0.13428558, y: -0.034824315, z: 0.0047221165, w: 0.9903194}
+  m_LocalRotation: {x: 0.13428558, y: -0.034824368, z: 0.0047221235, w: 0.9903194}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11906,7 +11912,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155955481}
-  m_LocalRotation: {x: 0.25228977, y: -0.03400478, z: 0.008871703, w: 0.96701336}
+  m_LocalRotation: {x: 0.25228977, y: -0.034004774, z: 0.008871702, w: 0.96701336}
   m_LocalPosition: {x: -273.5127, y: 22.29, z: 37.120102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -14416,7 +14422,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661882869}
-  m_LocalRotation: {x: 0.25228974, y: -0.034004778, z: 0.008871703, w: 0.9670134}
+  m_LocalRotation: {x: 0.25228974, y: -0.03400477, z: 0.008871702, w: 0.9670134}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -14444,6 +14450,7 @@ MonoBehaviour:
   gameObjectives: {fileID: 0}
   moneyText: {fileID: 0}
   timeUntilExitAfterVictory: 6
+  timeUntilExitAfterDefeat: 4
   exiter: {fileID: 1661914998}
   waveBannerUI: {fileID: 1654186771}
   waveBannerImage: {fileID: 1654186773}
