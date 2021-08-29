@@ -14,9 +14,11 @@ public class DetectPlayerBeanstalk : MonoBehaviour
     private Collider stalkBaseCollider;
     [SerializeField]
     private GameObject dirtPlatform;
+    private PlayerController playerCon;
 
     private string objectiveTag = "beanstalk";
 
+    private bool isClimbing = false;
     private void Start()
     {
         game = FindObjectOfType<MainGame>();
@@ -35,12 +37,15 @@ public class DetectPlayerBeanstalk : MonoBehaviour
             Physics.IgnoreCollision(c, mainStalkColliderInteractive, true);
             Physics.IgnoreCollision(c, stalkBaseCollider, true);
         }
+
+        // Get player
+        playerCon = FindObjectOfType<PlayerController>();
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
-        
+        /*
         if (!checkObjective(objectiveTag))
         {
             return;
@@ -49,7 +54,15 @@ public class DetectPlayerBeanstalk : MonoBehaviour
         {
             // Player is walking on dirt platform
             guidePrompt.text = "Hold 'F' to Climb Beanstalk";
+          
+            // Perform climb here
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                guidePrompt.text = "";
+                playerCon.startStopClimbing(true);
+            }
         }
+        */
     }
     private void OnTriggerExit(Collider other)
     {
@@ -70,12 +83,24 @@ public class DetectPlayerBeanstalk : MonoBehaviour
         }
         if (other.CompareTag("Player"))
         {
+            guidePrompt.text = "Hold 'F' to Climb Beanstalk";
             // Perform climb here
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKey(KeyCode.F))
             {
                 // Detect the players height here
-                guidePrompt.text = "";
-                game.playerCompletedObjective();
+                // Perform climb here
+                guidePrompt.text = "Keep Going!";
+                // Detect the players height here
+                if (!isClimbing)
+                {
+                    isClimbing = true;
+                    playerCon.startStopClimbing(isClimbing);
+                }
+            }
+            else 
+            {
+                isClimbing = false;
+                playerCon.startStopClimbing(isClimbing);
             }
         }
     }
@@ -87,21 +112,4 @@ public class DetectPlayerBeanstalk : MonoBehaviour
         }
         return false;
     }
-    /*
-     * Do the below from within the objectives class
-     *
-    // Check if beanstalk has finished growing
-    if (!handler.isBeanStalkFullyGrown())
-    {
-        return;
-    }
-    // Check if waves have finished
-    if (!enemyManager.wavesAreFinished())
-    {
-        return;
-    }
-    // TODO: Check if player has killed all the enemies
-
-        */
-
 }

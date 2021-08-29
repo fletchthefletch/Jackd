@@ -4,6 +4,7 @@ using UnityEngine;
 public class Objectives : MonoBehaviour
 {
     private List<Objective> objectives = new List<Objective>();
+
     private int currentObjective;
     [SerializeField]
     private GameObject beans;
@@ -36,6 +37,10 @@ public class Objectives : MonoBehaviour
     }
     public int getCurrentObjectivePointsForCompleting()
     {
+        if (currentObjective >= objectives.Count)
+        {
+            return 100;
+        }
         return objectives[currentObjective].getPointsForCompleting();
     }
     public string getCurrentObjectiveTag()
