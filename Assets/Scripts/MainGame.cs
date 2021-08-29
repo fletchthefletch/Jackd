@@ -88,8 +88,9 @@ public class MainGame : MonoBehaviour
         Color temp =  waveBannerImage.color;
         waveBannerImage.color = victoryColor;
         waveBannerText.text = "Victory!";
+        playlist.fadeOutSoundsExcept("victory", 1f);
         playlist.playInteractionSound("victory", false);
-
+        
         // Wait N seconds
         yield return new WaitForSeconds(timeUntilExitAfterVictory);
         exiter.exitToMenu();

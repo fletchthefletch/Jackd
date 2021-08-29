@@ -37,6 +37,10 @@ public class Objectives : MonoBehaviour
     }
     public int getCurrentObjectivePointsForCompleting()
     {
+        if (currentObjective >= objectives.Count)
+        {
+            return 100;
+        }
         return objectives[currentObjective].getPointsForCompleting();
     }
     public string getCurrentObjectiveTag()

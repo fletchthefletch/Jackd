@@ -18,10 +18,10 @@ public class PlayerController : MonoBehaviour
     public float m_speed = 0f;
 
     // Walk speed
-    public float m_walkSpeed = 2f;
+    public float m_walkSpeed = 1.5f;
 
     // Run speed
-    public float m_runSpeed = 4f;
+    public float m_runSpeed = 3f;
 
     // Vertical speed
     public float m_speedY = 3f;
@@ -67,6 +67,12 @@ public class PlayerController : MonoBehaviour
 
     private PlayListCycler playlist;
 
+    private bool isClimbing = false;
+    private float maxClimbHeight = 92f;
+    private float climbRate = 2f;
+    private MainGame game;
+    private bool hasWon = false;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -76,6 +82,13 @@ public class PlayerController : MonoBehaviour
         // Get player
         player = GetComponent<Player>();
 
+        // Get game
+        game = FindObjectOfType<MainGame>();
+
+        if (game == null)
+        {
+            Debug.Log("Could not retrieve game for player instance");
+        }
         // Get main camera
         playerCam = cam.transform;
         m_moveState = MoveState.Idle;
@@ -91,9 +104,28 @@ public class PlayerController : MonoBehaviour
     {
         playlist.playPlayerSound("Jump", true);
     }
+    public void playClimb()
+    {
+        // Play climbing sound
+    }
 
     void Update()
     {
+        if (transform.position.y > maxClimbHeight)
+        {
+            if (!hasWon)
+            {
+                // Player has won
+                // Stop climbing animation
+                // Stop climbing sound
+                game.playerCompletedObjective();
+                animator.SetBool("isClimbing", false);
+                animator.SetBool("victory", true);
+                hasWon = true;
+            }
+            return;
+        }
+
         if (pauseMenu.isOpen())
         {
             animator.SetFloat("speed", 0f);
@@ -102,13 +134,17 @@ public class PlayerController : MonoBehaviour
         // Update current player state and movement
         UpdatePlayerState();
         UpdateHorizontalMovement();
+        if (isClimbing && transform.position.y < maxClimbHeight)
+        {
+            UpdateClimb();
+            return;
+        }
         UpdateVerticalMovement();
         UpdateRotation();
-
         // Move   
         controller.Move(movement * Time.deltaTime + movementJump * Time.deltaTime);
     }
-
+ 
     private void UpdateRotation()
     {
         if (inputDirection != Vector3.zero)            
@@ -120,6 +156,31 @@ public class PlayerController : MonoBehaviour
             // Smoothly Interpolate from current rotation to target rotation with the given turn speed amount 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, m_turnSpeed * Time.deltaTime);
         }
+    }
+    public void startStopClimbing(bool start)
+    {
+        isClimbing = start;
+        if (start && transform.position.y < maxClimbHeight)
+        {
+            // Climbing animation
+            // Climbing sound
+            animator.SetBool("isClimbing", true);
+        }
+        
+        else
+        {
+            // Stop climbing animation
+            // Stop climbing sound
+            animator.SetBool("isClimbing", false);
+        }
+    }
+    private void UpdateClimb()
+    {
+        // Detect the players height here - don't climb further than the cloud!
+        m_speedY = climbRate;
+        movementJump.y = m_speedY;
+        controller.Move(movement * Time.deltaTime + movementJump * Time.deltaTime);
+        playClimb();
     }
 
     private void UpdateHorizontalMovement()
@@ -135,8 +196,10 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("speed", m_speed);
     }
 
+
     private void UpdateVerticalMovement()
     {
+
         if (controller.isGrounded)
         {
             m_speedY = -GRAVITY * GRAVITY_STICK;
