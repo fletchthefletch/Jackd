@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -12,12 +14,14 @@ public class Player : MonoBehaviour
     private PlayListCycler playlist;
     private AudioSource heartbeatSrc;
 
+
+
     void Start()
     {
         setPlayerHealth(playerHealth);
         setPlayerScore(0);
         playlist = FindObjectOfType<PlayListCycler>();
-        heartbeatSrc = playlist.getSoundSource("heartbeat", "PLAYER");
+        heartbeatSrc = playlist.getSoundSource("heartbeat", "INTERACTION");
         heartbeatSrc.loop = true;
     }
     public void setPlayerScore(int scoreIncrement)
@@ -34,7 +38,7 @@ public class Player : MonoBehaviour
         // Update money text
         playerUI.setMoney(playerMoney);
     }
-    public int getPlayerScore() 
+    public int getPlayerScore()
     {
         return playerScore;
     }
@@ -50,9 +54,9 @@ public class Player : MonoBehaviour
     {
         return playerHealth;
     }
+
     public bool takeDamage(float damageAmount) // Returns true if player is still alive; false otherwise
     {
-
         playlist.playPlayerSound("HurtPlayer", true);
         float res = playerHealth - damageAmount;
         if (res <= 0.5f)
@@ -97,9 +101,8 @@ public class Player : MonoBehaviour
             }
             if (heartbeatSrc.volume == 0f)
             {
-
-                heartbeatSrc.Stop();
                 heartbeatSrc.volume = 0.25f;
+                heartbeatSrc.Stop();
             }
         }
         if (res <= 1f)

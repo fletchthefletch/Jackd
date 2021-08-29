@@ -114,14 +114,9 @@ public class PlayerController : MonoBehaviour
         // Play climbing sound
         playlist.playPlayerSound("Climb", true);
     }
-    private void UpdateAudio()
-    { 
-        
-    }
 
     void Update()
     {
-        UpdateAudio();
         if (transform.position.y > maxClimbHeight)
         {
             if (!hasWon)
@@ -186,7 +181,6 @@ public class PlayerController : MonoBehaviour
     }
     private void UpdateClimb()
     {
-        // Detect the players height here - don't climb further than the cloud!
         m_speedY = climbRate;
         movementJump.y = m_speedY;
         controller.Move(movement * Time.deltaTime + movementJump * Time.deltaTime);
@@ -237,6 +231,8 @@ public class PlayerController : MonoBehaviour
             {
                 if (fallPrep.transform.position.y < fallBuffer)
                 {
+                    // Player is going to hit the ground after a fall
+                    player.takeDamage(0.5f);
                     animator.SetBool("canFall", false);
                 }
             }
