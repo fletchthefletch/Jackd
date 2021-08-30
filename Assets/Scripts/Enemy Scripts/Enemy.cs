@@ -90,26 +90,35 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             anim.SetBool("stopMoving", true);
-            // Check the angle
-            float dot = Vector3.Dot(transform.forward, (target.position - transform.position).normalized);
 
-            // Get back fan
-            // Get front fan
-            if (dot < -0.5)
-            {
-                // Kick
-               // kickToggle = true;
-            }
-            else 
-            {
-             //   kickToggle = false;
-            }
             //Debug.Log(dot.ToString());
             
 
             //anim.SetBool("kickToggle", kickToggle);
             //anim.SetBool("stopMoving", stopMoving);
             
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (!anim.GetBool("stopMoving"))
+        {
+            return;
+        }
+        // Check the angle
+        float dot = Vector3.Dot(transform.forward, (target.position - transform.position).normalized);
+
+        // Get back fan
+        // Get front fan
+        if (dot < -0.5)
+        {
+            // Kick
+            anim.SetBool("isKicking", true);
+        }
+        else
+        {
+            anim.SetBool("isKicking", false);
+            //   kickToggle = false;
         }
     }
 
@@ -122,6 +131,7 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             anim.SetBool("stopMoving", false);
+            anim.SetBool("isKicking", false);
         }
     }
 
