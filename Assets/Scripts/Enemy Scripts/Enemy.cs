@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float walkSpeed = 1.4f;
-    private float gallopSpeed = 2.1f;
+    private float walkSpeed = 1f; // 1.4f
+    private float gallopSpeed = 1f; // 1.9f
     private float enemyHealth;
     private float currentSpeed = 0f;
     private float rotationSpeed = 2f;
@@ -67,16 +67,11 @@ public class Enemy : MonoBehaviour
         if (playlist == null)
         {
             Debug.Log("Could not locate playlist in enemy class");
-        }
-
-         //Deletecode
-         oneTime = false;
-
+        }        
     }
  
     private IEnumerator enemyDeath()
     {
-        Debug.Log("Dyinganim");
         anim.SetBool("isAlive", false);
 
         // Delay
@@ -90,14 +85,13 @@ public class Enemy : MonoBehaviour
     {
         if (!isAlive)
         {
-            Debug.Log("Dead");
             return;
         }
         if (other.CompareTag("Player"))
         {
+            anim.SetBool("stopMoving", true);
             // Check the angle
-            float dot = Vector3.Dot(transform.forward, 
-               (target.position - transform.position).normalized);
+            float dot = Vector3.Dot(transform.forward, (target.position - transform.position).normalized);
 
             // Get back fan
             // Get front fan
@@ -113,7 +107,6 @@ public class Enemy : MonoBehaviour
             //Debug.Log(dot.ToString());
             
 
-            stopMoving = true;
             //anim.SetBool("kickToggle", kickToggle);
             //anim.SetBool("stopMoving", stopMoving);
             
@@ -128,9 +121,7 @@ public class Enemy : MonoBehaviour
         }
         if (other.CompareTag("Player"))
         {
-            
-            stopMoving = false;
-            //anim.SetBool("stopMoving", stopMoving);
+            anim.SetBool("stopMoving", false);
         }
     }
 
@@ -206,19 +197,7 @@ public class Enemy : MonoBehaviour
 
 
 
-    //Deletecode
-    private void oneTimeFunction()
-    {
-        if (Input.GetKey(KeyCode.E))
-        { 
-            if (!oneTime)
-            {
-                takeDamage(1f);
-                //FindObjectOfType<Player>().takeDamage(1f);
-            }
-            oneTime = true;
-        }
-    }
+
 
     public void Update()
     {
@@ -231,25 +210,20 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        //Deletecode
-        oneTimeFunction();
-
-
-
         if (enemyHealth <= 0f)
         {
             if (isAlive)
             {
-                Debug.Log("Enemy died");
                 StartCoroutine(enemyDeath());
                 isAlive = false;
             }
         }
 
-        if (stopMoving)
+        if (anim.GetBool("stopMoving"))
         {
             return;
         }
+
         if (target == null)
         {
             Debug.Log("target");
@@ -259,7 +233,6 @@ public class Enemy : MonoBehaviour
 
         if (sqrLen > seenDepth * seenDepth)
         {
-           // resetEverything();
             anim.SetBool("hasSeenPlayer", false);
             anim.SetBool("isGalloping", false);
             currentSpeed = 0f;
@@ -285,20 +258,6 @@ public class Enemy : MonoBehaviour
             return;
         }
    }
-    private void resetEverything()
-    {
-        walkSpeed = 1.4f;
-gallopSpeed = 2.1f;
- currentSpeed = 0f;
-rotationSpeed = 2f;
-
-seenDepth = 10.0f;
- chaseDepth = seenDepth / 2f;
-
- isGalloping = false;
- hasSeenPlayer = false;
-    isEating = false;
-    }
 
     private void walkTowardsPlayer()
     {
