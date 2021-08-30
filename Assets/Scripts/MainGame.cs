@@ -40,7 +40,6 @@ public class MainGame : MonoBehaviour
     {
         playlist = FindObjectOfType<PlayListCycler>();
         playlist.playNextSongInPlaylist();
-        fadeScene.fadeInCurrentScene();
         player = FindObjectOfType<Player>();
         gameObjectives = FindObjectOfType<Objectives>();
         exiter = FindObjectOfType<ExitToMenu>();
@@ -48,7 +47,6 @@ public class MainGame : MonoBehaviour
 
     private void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // Show pause menu
