@@ -1088,6 +1088,12 @@ MonoBehaviour:
     volume: 0.25
     pitch: 1
     mySource: {fileID: 0}
+  - name: earnedMoney
+    soundClass: INTERACTION
+    clip: {fileID: 8300000, guid: 81652031b64c342cc8dbc59c138d77c5, type: 3}
+    volume: 1
+    pitch: 1
+    mySource: {fileID: 0}
 --- !u!4 &200168540 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 420546, guid: a45f923de9555884cbe160883ce87a74, type: 3}
@@ -3557,7 +3563,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590029948}
-  m_LocalRotation: {x: 0.13428546, y: -0.034824304, z: 0.004722111, w: 0.9903194}
+  m_LocalRotation: {x: 0.13428546, y: -0.034824353, z: 0.0047221174, w: 0.9903194}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9012,7 +9018,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: 0.0024832594, y: -0.07438486, z: 0.00018523062, w: 0.99722654}
+  m_LocalRotation: {x: 0.002483251, y: -0.07438486, z: 0.00018522998, w: 0.99722654}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11241,7 +11247,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155955481}
-  m_LocalRotation: {x: 0.17017014, y: -0.0346298, z: 0.0059839874, w: 0.9847879}
+  m_LocalRotation: {x: 0.17017014, y: -0.034629837, z: 0.0059839906, w: 0.9847879}
   m_LocalPosition: {x: -273.5127, y: 2.29, z: 37.120102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13867,7 +13873,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661882869}
-  m_LocalRotation: {x: 0.17017013, y: -0.0346298, z: 0.005983986, w: 0.9847879}
+  m_LocalRotation: {x: 0.17017013, y: -0.034629833, z: 0.0059839915, w: 0.9847879}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

@@ -20,8 +20,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         setPlayerHealth(playerHealth);
-        setPlayerScore(0);
         playlist = FindObjectOfType<PlayListCycler>();
+        setPlayerScore(0);
         anim = gameObject.GetComponent<Animator>();
         heartbeatSrc = playlist.getSoundSource("heartbeat", "INTERACTION");
         heartbeatSrc.loop = true;
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     {
         playerMoney += scoreIncrement;
         playerScore += scoreIncrement;
-
+        playlist.playInteractionSound("earnedMoney", true);
         // Update main high score record
         if (LevelLoader.getHighScore() < playerScore)
         {
