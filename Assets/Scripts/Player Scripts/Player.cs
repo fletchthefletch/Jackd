@@ -14,13 +14,15 @@ public class Player : MonoBehaviour
     private PlayListCycler playlist;
     private AudioSource heartbeatSrc;
 
-
+    [SerializeField]
+    private Animator anim;
 
     void Start()
     {
         setPlayerHealth(playerHealth);
         setPlayerScore(0);
         playlist = FindObjectOfType<PlayListCycler>();
+        anim = gameObject.GetComponent<Animator>();
         heartbeatSrc = playlist.getSoundSource("heartbeat", "INTERACTION");
         heartbeatSrc.loop = true;
     }
@@ -75,7 +77,7 @@ public class Player : MonoBehaviour
                 heartbeatSrc.PlayOneShot(heartbeatSrc.clip);
             }
         }
-        if (res >= 0f)
+        if (res > 0f)
         {
             setPlayerHealth(res);
             playlist.playPlayerSound("Pain1", true);
@@ -84,6 +86,7 @@ public class Player : MonoBehaviour
         else
         {
             // Player is dead!
+            anim.SetBool("isDead", true);
             setPlayerHealth(0f);
             return false;
         }

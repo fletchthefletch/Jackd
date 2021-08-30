@@ -48,6 +48,13 @@ public class PlayListCycler : MonoBehaviour
 
         }
     }
+    private void FixedUpdate()
+    {
+        if (!mainPlayList[currentSongIndex].mySource.isPlaying)
+        {
+            playNextSongInPlaylist();
+        }
+    }
     public float getCurrentBackgroundMusicVolume()
     {
         return currentBackgroundMusicvolume;

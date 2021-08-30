@@ -41,7 +41,8 @@ public class Enemy : MonoBehaviour
     private Animator anim;
     private EnemyManager manager;
     public int id;
-
+    //Deletecode
+    private bool oneTime = false;
 
     void Start()
     {
@@ -68,15 +69,20 @@ public class Enemy : MonoBehaviour
             Debug.Log("Could not locate playlist in enemy class");
         }
 
+         //Deletecode
+         oneTime = false;
+
     }
  
     private IEnumerator enemyDeath()
     {
+        Debug.Log("Dyinganim");
         anim.SetBool("isAlive", false);
 
         // Delay
         yield return new WaitForSecondsRealtime(displayAfterDeathTime);
 
+        // Destroy cow
         Destroy(this.transform.gameObject);
     }
 
@@ -198,6 +204,22 @@ public class Enemy : MonoBehaviour
     }
     */
 
+
+
+    //Deletecode
+    private void oneTimeFunction()
+    {
+        if (Input.GetKey(KeyCode.E))
+        { 
+            if (!oneTime)
+            {
+                takeDamage(1f);
+                //FindObjectOfType<Player>().takeDamage(1f);
+            }
+            oneTime = true;
+        }
+    }
+
     public void Update()
     {
         if (id != 0)
@@ -208,11 +230,10 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-        // Deletecode
-        if (Input.GetKey(KeyCode.E))
-        {
-            takeDamage(0.15f);
-        }
+
+        //Deletecode
+        oneTimeFunction();
+
 
 
         if (enemyHealth <= 0f)

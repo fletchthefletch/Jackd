@@ -47,6 +47,7 @@ public class MainGame : MonoBehaviour
 
     private void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // Show pause menu

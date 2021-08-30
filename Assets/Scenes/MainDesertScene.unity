@@ -3001,7 +3001,7 @@ MonoBehaviour:
   isGalloping: 0
   hasSeenPlayer: 0
   isEating: 0
-  displayAfterDeathTime: 0
+  displayAfterDeathTime: 5
   timeUntilEnemyEats: 0
   isAlive: 0
   id: 0
@@ -3649,7 +3649,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590029948}
-  m_LocalRotation: {x: 0.13428546, y: -0.034824353, z: 0.0047221174, w: 0.9903194}
+  m_LocalRotation: {x: 0.13428546, y: -0.034824304, z: 0.004722111, w: 0.9903194}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9074,7 +9074,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: 0.0024841395, y: -0.069630034, z: 0.0001733921, w: 0.9975698}
+  m_LocalRotation: {x: 0.0024846622, y: -0.06642726, z: 0.00016541517, w: 0.9977882}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -10054,6 +10054,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: 1
   playerUI: {fileID: 1114104089}
+  anim: {fileID: 0}
 --- !u!4 &777917267 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 482546, guid: 8a13b3dbbf597744192ac4a84ebb93c6, type: 3}
@@ -11999,7 +12000,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155955481}
-  m_LocalRotation: {x: 0.17017016, y: -0.03462984, z: 0.005983993, w: 0.9847879}
+  m_LocalRotation: {x: 0.17017016, y: -0.034629803, z: 0.005983986, w: 0.9847879}
   m_LocalPosition: {x: -273.5127, y: 2.29, z: 37.120102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -14510,7 +14511,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661882869}
-  m_LocalRotation: {x: 0.17017013, y: -0.034629833, z: 0.0059839915, w: 0.9847879}
+  m_LocalRotation: {x: 0.17017013, y: -0.0346298, z: 0.005983986, w: 0.9847879}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -19359,6 +19360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj: {fileID: 1833467496}
+  fadeInDuration: 3
 --- !u!4 &3619478393437976765
 Transform:
   m_ObjectHideFlags: 0
