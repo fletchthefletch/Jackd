@@ -4,20 +4,12 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
     private float walkSpeed = 1.4f;
-    [SerializeField]
     private float gallopSpeed = 2.1f;
-    [SerializeField]
     private float enemyHealth;
-    [SerializeField]
     private float currentSpeed = 0f;
-    [SerializeField]
     private float rotationSpeed = 2f;
-
-    [SerializeField]
     private float seenDepth = 10.0f;
-    [SerializeField]
     private float chaseDepth;
 
     [SerializeField]
@@ -30,12 +22,16 @@ public class Enemy : MonoBehaviour
     private bool stopMoving = false;
     private bool kickToggle = false;
 
+    [SerializeField]
+    private float displayAfterDeathTime = 5f;
 
     [SerializeField]
     private float timeUntilEnemyEats = 5f;
     private float eatTimer = 0f;
     private float sqrLen;
     private Vector3 dist;
+    [SerializeField]
+    private bool isAlive;
 
     // Gameobjects
     private Player player;
@@ -43,16 +39,25 @@ public class Enemy : MonoBehaviour
     private PlayListCycler playlist;
     private CharacterController enemyController;
     private Animator anim;
+    private EnemyManager manager;
+    public int id;
 
 
     void Start()
     {
-        setEnemyHealth(1f);
 
+        isAlive = true;
+        this.id = 0;
+        player = FindObjectOfType<Player>();
+        setEnemyHealth(1f);
+        target = player.transform;
+
+        chaseDepth = seenDepth / 2f;
         // Retrieve game objects
         enemyController = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
-        player = FindObjectOfType<Player>();
+
+        manager = FindObjectOfType<EnemyManager>();
         if (player == null)
         {
             Debug.Log("Could not locate player");
@@ -62,14 +67,26 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("Could not locate playlist in enemy class");
         }
-        target = player.transform;
 
-        chaseDepth = seenDepth / 2f;
+    }
+ 
+    private IEnumerator enemyDeath()
+    {
+        anim.SetBool("isAlive", false);
+
+        // Delay
+        yield return new WaitForSecondsRealtime(displayAfterDeathTime);
+
+        Destroy(this.transform.gameObject);
     }
 
-
     private void OnTriggerEnter(Collider other)
-    {     
+    {
+        if (!isAlive)
+        {
+            Debug.Log("Dead");
+            return;
+        }
         if (other.CompareTag("Player"))
         {
             // Check the angle
@@ -99,6 +116,10 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (!isAlive)
+        {
+            return;
+        }
         if (other.CompareTag("Player"))
         {
             
@@ -179,11 +200,39 @@ public class Enemy : MonoBehaviour
 
     public void Update()
     {
+        if (id != 0)
+        {
+            return;
+        }
+        if (!isAlive)
+        {
+            return;
+        }
+        // Deletecode
+        if (Input.GetKey(KeyCode.E))
+        {
+            takeDamage(0.15f);
+        }
+
+
+        if (enemyHealth <= 0f)
+        {
+            if (isAlive)
+            {
+                Debug.Log("Enemy died");
+                StartCoroutine(enemyDeath());
+                isAlive = false;
+            }
+        }
+
         if (stopMoving)
         {
             return;
         }
-
+        if (target == null)
+        {
+            Debug.Log("target");
+        }
         dist = target.transform.position - transform.position;
         sqrLen = dist.sqrMagnitude;
 

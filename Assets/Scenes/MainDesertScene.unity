@@ -2433,17 +2433,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1919c0d22ee6f14d99bf346091ea6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 4
-  gallopSpeed: 4
-  enemyHealth: 0
-  currentSpeed: 2
-  rotationSpeed: 1
-  seenDepth: 5
-  chaseDepth: 0
   isGalloping: 0
   hasSeenPlayer: 0
   isEating: 0
+  displayAfterDeathTime: 0
   timeUntilEnemyEats: 0
+  isAlive: 0
+  id: 0
 --- !u!1 &395389551
 GameObject:
   m_ObjectHideFlags: 0
@@ -3002,17 +2998,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1919c0d22ee6f14d99bf346091ea6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 1.4
-  gallopSpeed: 2.1
-  enemyHealth: 0
-  currentSpeed: 0
-  rotationSpeed: 2
-  seenDepth: 10
-  chaseDepth: 0
   isGalloping: 0
   hasSeenPlayer: 0
   isEating: 0
-  timeUntilEnemyEats: 5
+  displayAfterDeathTime: 0
+  timeUntilEnemyEats: 0
+  isAlive: 0
+  id: 0
 --- !u!65 &490947081
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3026,22 +3018,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5, y: 5.044306, z: 11.666307}
   m_Center: {x: -0.019999444, y: 2.4705205, z: 0.72864056}
---- !u!54 &490947082
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 490947076}
-  serializedVersion: 2
-  m_Mass: 1000
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 126
-  m_CollisionDetection: 3
 --- !u!1 &496272499
 GameObject:
   m_ObjectHideFlags: 0
@@ -3673,8 +3649,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590029948}
-  m_LocalRotation: {x: 0.13428546, y: -0.034824297, z: 0.0047221086, w: 0.9903194}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalRotation: {x: 0.13428546, y: -0.034824353, z: 0.0047221174, w: 0.9903194}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 356817660}
@@ -9098,7 +9074,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: 0.00248506, y: -0.06383002, z: 0.00015894603, w: 0.9979577}
+  m_LocalRotation: {x: 0.0024850662, y: -0.06383002, z: 0.00015894644, w: 0.9979577}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9139,7 +9115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9a4cc3cf7af495042b7c5cad12295d50, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9a4cc3cf7af495042b7c5cad12295d50, type: 3}
       propertyPath: m_LocalScale.x
@@ -9155,7 +9131,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9a4cc3cf7af495042b7c5cad12295d50, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 27.17
+      value: 27.11702
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9a4cc3cf7af495042b7c5cad12295d50, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9527,7 +9503,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9a4cc3cf7af495042b7c5cad12295d50, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1100830779954996672, guid: 9a4cc3cf7af495042b7c5cad12295d50, type: 3}
       propertyPath: m_Layer
@@ -11924,7 +11900,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155955481}
-  m_LocalRotation: {x: 0.17017014, y: -0.034629837, z: 0.0059839925, w: 0.9847879}
+  m_LocalRotation: {x: 0.17017014, y: -0.034629837, z: 0.0059839906, w: 0.9847879}
   m_LocalPosition: {x: -273.5127, y: 2.29, z: 37.120102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13350,7 +13326,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   beanstalkMaxSize: 511
   beanstalkStartingSize: 0
-  timeUntilBeanStalkIsFullyGrown: 10
+  timeUntilBeanStalkIsFullyGrown: 300
   beanTime: 0
 --- !u!4 &1438734646
 Transform:
@@ -14481,7 +14457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c9004631545c04bb5c0503867fa6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeUntilExitingStarts: 2
   fader: {fileID: 3619478393437976754}
   faderAud: {fileID: 3619478393437976753}
 --- !u!114 &1661915001
@@ -14504,6 +14479,7 @@ MonoBehaviour:
   waveWindow: {fileID: 569485291}
   waveBannerUI: {fileID: 1654186771}
   guidePrompt: {fileID: 1883292588}
+  Cow: {fileID: 490947076}
 --- !u!1 &1675541153
 GameObject:
   m_ObjectHideFlags: 0

@@ -48,6 +48,7 @@ public class MainGame : MonoBehaviour
 
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // Show pause menu
@@ -60,29 +61,6 @@ public class MainGame : MonoBehaviour
                 // Hide pause menu
                 pauseMenu.closePauseMenu();
             }
-        }
-     
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (player.takeDamage(0.15f))
-            {
-                Debug.Log("Player is still alive");
-            }
-            else
-            {
-                Debug.Log("Player is dead!");
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            gameObjectives.startNextObjective();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            player.heal(0.05f);
-            Debug.Log("Healing player...");
         }
 
         // Check player health - if player health is <= 0, player has lost the game

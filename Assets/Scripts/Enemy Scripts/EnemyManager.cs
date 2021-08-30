@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,10 +30,18 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     private Text guidePrompt;
     private PlayListCycler playlist;
+    private MainGame game;
+
+
+    public GameObject Cow;
+
+    // Enemies
+    private List<Enemy> enemies = new List<Enemy>();
 
     private void Start()
     {
         playlist = FindObjectOfType<PlayListCycler>();
+        game = FindObjectOfType<MainGame>();
     }
     public void startFirstWave()
     {
@@ -41,8 +50,25 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(showFirstWavePrompt());
         
     }
+
+    // Deletecode
+    private bool toggle = false;
+
     void Update()
     {
+        // Deletecode
+        if (Input.GetKey(KeyCode.Q))
+        {
+            if (!toggle)
+            {
+                Debug.Log("make cow");
+                Vector3 posit = new Vector3(-279.992f, 0f, 33f);
+                Instantiate(Cow, posit, Quaternion.Euler(0, 0, 0));
+                //enemies.Add(new Enemy(0));
+                toggle = true;
+            }
+        }
+
         if (wavesHaventStarted)
         {
             return; // Do nothing   
@@ -53,10 +79,30 @@ public class EnemyManager : MonoBehaviour
 
         }
         else if (!allWavesFinished) {
+            // Check if all the enemies in the final wave are dead
+
             // This gets called once after the final wave has been generated
             nextWaveIn = 0.0f;
             allWavesFinished = true;
+            game.gameObjectives.startNextObjective();
         }
+    }
+
+    // Deletecode
+    public void destroyEnemy(int id)
+    {
+        /*
+        Enemy enemy = enemies.Find(e => e.id == id);
+        if (enemy == null)
+        {
+            Debug.Log("Could not destroy enemy object");
+            return;
+        }
+        else
+        {
+            // Destroy enemy object
+        }
+        */
     }
     public bool wavesAreFinished()
     {
@@ -81,7 +127,6 @@ public class EnemyManager : MonoBehaviour
 
     private IEnumerator showWaveBanner(int waveNum)
     {
-
         // Show wave banner
         waveBannerUI.SetActive(true);
         // Wait N seconds

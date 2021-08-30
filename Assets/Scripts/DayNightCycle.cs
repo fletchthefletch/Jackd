@@ -34,6 +34,7 @@ public class DayNightCycle : MonoBehaviour
 
         // Change colour
         sun.color = sunColor.Evaluate(time);
-        RenderSettings.ambientIntensity = lightIntensityMultiplier.Evaluate(time);
+        // Change sun intensity
+        //RenderSettings.ambientIntensity = lightIntensityMultiplier.Evaluate(time); // Perhaps a unity bug? Enabling this reduces enemy speed
     }
 }

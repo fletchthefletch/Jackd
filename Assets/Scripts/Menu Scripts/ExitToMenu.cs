@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class ExitToMenu : MonoBehaviour
 {
-    [SerializeField] 
-    private int timeUntilExitingStarts;
     [SerializeField]
     private FadeScene fader;
     [SerializeField]
