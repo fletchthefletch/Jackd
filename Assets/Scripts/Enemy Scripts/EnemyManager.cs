@@ -32,55 +32,67 @@ public class EnemyManager : MonoBehaviour
     private PlayListCycler playlist;
     private MainGame game;
 
-
+    // Spawn objects
     public GameObject Cow;
+    public GameObject DarkVoidSmall;
+    private float voidGenerationDelay = 3f;
 
     // Enemies
-    private List<Enemy> enemies = new List<Enemy>();
+    private List<GameObject> enemies;
+    [SerializeField]
+    private List<GameObject> spawnPointObjects;
+    private List<Vector3> spawnPoints;
+    private List<GameObject> voids;
+    private int currentSpawnPointIndex;
 
     private void Start()
     {
         playlist = FindObjectOfType<PlayListCycler>();
         game = FindObjectOfType<MainGame>();
+        enemies = new List<GameObject>();
+        spawnPoints = new List<Vector3>();
+        voids = new List<GameObject>();
+        currentSpawnPointIndex = 0;
+
+        // Get spawnpoint positions
+        foreach (GameObject g in spawnPointObjects)
+        {
+            spawnPoints.Add(g.transform.position);
+        }
     }
     public void startFirstWave()
     {
         wavesHaventStarted = false;
         waveWindow.SetActive(true);
         StartCoroutine(showFirstWavePrompt());
-        
     }
-
-    // Deletecode
-    private bool toggle = false;
 
     void Update()
     {
-        // Deletecode
-        if (Input.GetKey(KeyCode.Q))
-        {
-            if (!toggle)
-            {
-                Debug.Log("make cow");
-                Vector3 posit = new Vector3(-279.992f, 0f, 33f);
-                Instantiate(Cow, posit, Quaternion.Euler(0, 0, 0));
-                //enemies.Add(new Enemy(0));
-                toggle = true;
-            }
-        }
-
         if (wavesHaventStarted)
         {
             return; // Do nothing   
         }
+        // Delete dead enemies
+        for (int i = enemies.Count - 1; i >= 0; i--)
+        {
+            if (enemies[i] == null)
+            {
+                enemies.Remove(enemies[i]);
+            }
+        }
         if (currentWave < numberOfWaves)
         {
             updateWaveTime();
-
         }
         else if (!allWavesFinished) {
             // Check if all the enemies in the final wave are dead
-
+            if (enemies.Count > 0)
+            {
+                // At least one enemy is still alive
+                return;
+            }
+            
             // This gets called once after the final wave has been generated
             nextWaveIn = 0.0f;
             allWavesFinished = true;
@@ -88,22 +100,6 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    // Deletecode
-    public void destroyEnemy(int id)
-    {
-        /*
-        Enemy enemy = enemies.Find(e => e.id == id);
-        if (enemy == null)
-        {
-            Debug.Log("Could not destroy enemy object");
-            return;
-        }
-        else
-        {
-            // Destroy enemy object
-        }
-        */
-    }
     public bool wavesAreFinished()
     {
         return allWavesFinished;
@@ -124,7 +120,6 @@ public class EnemyManager : MonoBehaviour
             currentWave++;
         }
     }
-
     private IEnumerator showWaveBanner(int waveNum)
     {
         // Show wave banner
@@ -134,7 +129,6 @@ public class EnemyManager : MonoBehaviour
         // Hide wave banner
         waveBannerUI.SetActive(false);
     }
-
     private IEnumerator showFirstWavePrompt()
     {
         // Show wave banner
@@ -144,30 +138,61 @@ public class EnemyManager : MonoBehaviour
         // Hide wave banner
         guidePrompt.text = "";
     }
+    private IEnumerator spawnEnemiesForWave(int numOfCows, int numOfBulls)
+    {
+        // Instantiate cows
+        for (int i = 0; i < numOfCows; i++)
+        {
+            // Show dark voids
+            voids.Add(Instantiate(DarkVoidSmall, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0)));
+            yield return new WaitForSecondsRealtime(voidGenerationDelay);
+            // Cow
+            enemies.Add(Instantiate(Cow, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0)));
+            currentSpawnPointIndex++;
+        }
+
+        // Instantiate bulls
+        for (int i = 0; i < numOfBulls; i++)
+        {
+            // Show dark void
+            voids.Add(Instantiate(DarkVoidSmall, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0)));
+            // Bull
+            //enemies.Add(Instantiate(Bull, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0)));
+            currentSpawnPointIndex++;
+        }
+
+        // Destroy voids
+        foreach (GameObject obj in voids)
+        {
+            Destroy(obj);
+            yield return new WaitForSecondsRealtime(voidGenerationDelay);
+        }
+        yield return null;
+    }
 
     public void startWave(int waveToGenerate)
     {
         switch (waveToGenerate)
         {
             case 0:
-                // Create 1 cow
                 Debug.Log("First Wave Coming...");
+                StartCoroutine(spawnEnemiesForWave(1, 0));
                 break;
             case 1:
-                // Create 3 cows
                 Debug.Log("Second Wave Coming...");
+                StartCoroutine(spawnEnemiesForWave(3, 0));
                 break;
             case 2:
-                // Create 5 cows
                 Debug.Log("Third Wave Coming...");
+                //StartCoroutine(spawnEnemiesForWave(0, 1));
                 break;
             case 3:
-                // Create 1 bull
                 Debug.Log("Fourth Wave Coming...");
+                //StartCoroutine(spawnEnemiesForWave(2, 1));
                 break;
             case 4:
-                // Create 1 bull
                 Debug.Log("Fifth Wave Coming...");
+                //StartCoroutine(spawnEnemiesForWave(1, 2));
                 break;
         }
     }
