@@ -46,7 +46,7 @@ public class DetectPlayer : MonoBehaviour
         }
         if (other.CompareTag("Player"))
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKey(KeyCode.F))
             {
                 // Plant beans
                 game.playerCompletedObjective();

@@ -81,6 +81,7 @@ public class EnemyManager : MonoBehaviour
         {
             return; // Do nothing   
         }
+
         // Delete dead enemies
         for (int i = enemies.Count - 1; i >= 0; i--)
         {
