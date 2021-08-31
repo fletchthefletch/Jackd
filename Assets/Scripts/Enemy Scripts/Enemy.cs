@@ -4,30 +4,23 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float gallopSpeed = 1.2f; // 1.3f
+    private float gallopSpeed = 1.2f;
     private float enemyHealth;
     private float currentSpeed = 0f;
-    private float rotationSpeed = 2f;
+    private float rotationSpeed = 1f;
     private float seenDepth = 10.0f;
     private float chaseDepth = 3f;
-
-    [SerializeField]
-    private bool isGalloping = false;
-    [SerializeField]
-    private bool hasSeenPlayer = false;
-    [SerializeField]
-    private bool isEating = false;
-
-    [SerializeField]
     private float displayAfterDeathTime = 5f;
-
-    [SerializeField]
     private float timeUntilEnemyEats = 5f;
     private float eatTimer = 0f;
     private float sqrLen;
     private Vector3 dist;
-    [SerializeField]
     private bool isAlive;
+    public int id;
+    private bool oneMoo = true;
+
+    [SerializeField]
+    private float hitRange = 2.3f; 
 
     // Gameobjects
     private Player player;
@@ -36,12 +29,6 @@ public class Enemy : MonoBehaviour
     private CharacterController enemyController;
     private Animator anim;
     private EnemyManager manager;
-    public int id;
-
-    private bool oneMoo = true;
-
-
-
 
     void Start()
     {
@@ -126,6 +113,34 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void headButtHit()
+    {
+        // Check distance
+        dist = target.transform.position - transform.position;
+        sqrLen = dist.sqrMagnitude;
+        if (sqrLen > hitRange * hitRange)
+        {
+            return;
+        }
+
+        // Check the angle
+        float dot = Vector3.Dot(transform.forward, (target.position - transform.position).normalized);
+        if (dot < -0.3)
+        {
+            // Player has been kicked!
+            // Kick range
+            playlist.playInteractionSound("stab", true);
+            player.takeDamage(0.25f);
+        }
+        else if (dot > 0.75)
+        {
+            // Player has been headbutted!
+            // Headbutt range
+            playlist.playInteractionSound("stab", true);
+            player.takeDamage(0.15f);
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (!isAlive)
@@ -171,6 +186,8 @@ public class Enemy : MonoBehaviour
         dist = target.transform.position - transform.position;
         sqrLen = dist.sqrMagnitude;
 
+        rotateTowardsPlayer();
+
         if (anim.GetBool("stopMoving"))
         {
             if (oneMoo)
@@ -211,7 +228,7 @@ public class Enemy : MonoBehaviour
         {
             // Enemy can see player
             // Face player
-            rotateTowardsPlayer();
+            //rotateTowardsPlayer();
             // Start walking towards player
             anim.SetBool("hasSeenPlayer", true);
             anim.SetBool("isHungry", false);
