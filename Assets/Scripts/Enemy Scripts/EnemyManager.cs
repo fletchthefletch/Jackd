@@ -143,21 +143,36 @@ public class EnemyManager : MonoBehaviour
         // Instantiate cows
         for (int i = 0; i < numOfCows; i++)
         {
-            // Show dark voids
+            // Dark void
             voids.Add(Instantiate(DarkVoidSmall, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0)));
+
+            // Delay
             yield return new WaitForSecondsRealtime(voidGenerationDelay);
+
             // Cow
-            enemies.Add(Instantiate(Cow, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0)));
+            GameObject cow = Instantiate(Cow, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0));
+            enemies.Add(cow);
+
+            // Set enemy variables here
+            cow.GetComponent<Enemy>().setChaseDepth(0);
             currentSpawnPointIndex++;
         }
 
         // Instantiate bulls
         for (int i = 0; i < numOfBulls; i++)
         {
-            // Show dark void
+            // Dark void
             voids.Add(Instantiate(DarkVoidSmall, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0)));
+
+            // Delay
+            yield return new WaitForSecondsRealtime(voidGenerationDelay);
+
             // Bull
-            //enemies.Add(Instantiate(Bull, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0)));
+            GameObject bull = null;// Instantiate(Bull, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0));
+            enemies.Add(bull);
+
+            // Set variables here
+            bull.GetComponent<Enemy>().setChaseDepth(1);
             currentSpawnPointIndex++;
         }
 

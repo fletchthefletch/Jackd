@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float walkSpeed = 1f; // 1.4f
-    private float gallopSpeed = 1f; // 1.9f
+    private float gallopSpeed = 1.2f; // 1.3f
     private float enemyHealth;
     private float currentSpeed = 0f;
     private float rotationSpeed = 2f;
     private float seenDepth = 10.0f;
-    private float chaseDepth;
+    private float chaseDepth = 3f;
 
     [SerializeField]
     private bool isGalloping = false;
@@ -18,9 +17,6 @@ public class Enemy : MonoBehaviour
     private bool hasSeenPlayer = false;
     [SerializeField]
     private bool isEating = false;
-
-    private bool stopMoving = false;
-    private bool kickToggle = false;
 
     [SerializeField]
     private float displayAfterDeathTime = 5f;
@@ -41,8 +37,11 @@ public class Enemy : MonoBehaviour
     private Animator anim;
     private EnemyManager manager;
     public int id;
-    //Deletecode
-    private bool oneTime = false;
+
+    private bool oneMoo = true;
+
+
+
 
     void Start()
     {
@@ -53,7 +52,6 @@ public class Enemy : MonoBehaviour
         setEnemyHealth(1f);
         target = player.transform;
 
-        chaseDepth = seenDepth / 2f;
         // Retrieve game objects
         enemyController = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
@@ -68,6 +66,20 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("Could not locate playlist in enemy class");
         }        
+    }
+    public void setChaseDepth(int enemyType)
+    {
+        switch (enemyType)
+        {
+            case 0:
+                // Cow
+                chaseDepth = 3f;
+                break;
+            case 1:
+                // Bull
+                chaseDepth = 4f;
+                break;
+        }
     }
  
     private IEnumerator enemyDeath()
@@ -89,14 +101,8 @@ public class Enemy : MonoBehaviour
         }
         if (other.CompareTag("Player"))
         {
+            // Cow should stop moving
             anim.SetBool("stopMoving", true);
-
-            //Debug.Log(dot.ToString());
-            
-
-            //anim.SetBool("kickToggle", kickToggle);
-            //anim.SetBool("stopMoving", stopMoving);
-            
         }
     }
     private void OnTriggerStay(Collider other)
@@ -108,17 +114,15 @@ public class Enemy : MonoBehaviour
         // Check the angle
         float dot = Vector3.Dot(transform.forward, (target.position - transform.position).normalized);
 
-        // Get back fan
-        // Get front fan
         if (dot < -0.5)
         {
-            // Kick
+            // Player is behind cow --> Kick
             anim.SetBool("isKicking", true);
         }
         else
         {
+            // Player is in front of cow --> headbutt
             anim.SetBool("isKicking", false);
-            //   kickToggle = false;
         }
     }
 
@@ -130,7 +134,7 @@ public class Enemy : MonoBehaviour
         }
         if (other.CompareTag("Player"))
         {
-            anim.SetBool("stopMoving", false);
+            //anim.SetBool("stopMoving", false);
             anim.SetBool("isKicking", false);
         }
     }
@@ -142,72 +146,6 @@ public class Enemy : MonoBehaviour
         // Smoothly rotate towards the target point.
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
-
-    /*
-    public void Update1()
-    {
-        Vector3 dist = (target.transform.position - transform.position).normalized;
-        float absX = Mathf.Abs(dist.x);
-        float absZ = Mathf.Abs(dist.z);
-
-        currentSpeed = 0f;
-        hasSeenPlayer = false;
-
-        if (stopMoving)
-        {
-            isEating = false;
-            return;
-        }
-
-        if (absZ < seenDepth || absX < seenWidth) // Target player by walking
-        {
-            // Stop eating if the player is
-            isEating = false;
-            eatTimer = 0f;
-
-            hasSeenPlayer = true;
-            rotateTowardsPlayer();
-
-            if (absZ < chaseDepth || absX < chaseWidth)
-            {
-                currentSpeed = gallopSpeed;
-                isGalloping = true;
-                // Target player by walking
-                // Move enemy towards location of player
-            }
-            else
-            {
-                isGalloping = false;
-                currentSpeed = walkSpeed;
-            }
-        }
-        else
-        {
-            isGalloping = false;
-            
-            if (eatTimer >= timeUntilEnemyEats)
-            {
-                // Start eating
-                isEating = true;
-            }
-            else
-            {
-                eatTimer += Time.deltaTime;
-            }
-        }
-
-        anim.SetFloat("speed", currentSpeed);
-        anim.SetBool("isGalloping", isGalloping);
-        anim.SetBool("hasSeenPlayer", hasSeenPlayer);
-        anim.SetBool("isHungry", isEating);
-
-        transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.fixedDeltaTime);
-    }
-    */
-
-
-
-
 
     public void Update()
     {
@@ -222,6 +160,7 @@ public class Enemy : MonoBehaviour
 
         if (enemyHealth <= 0f)
         {
+            // Start death animation --> enemy is dead
             if (isAlive)
             {
                 StartCoroutine(enemyDeath());
@@ -229,22 +168,32 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if (anim.GetBool("stopMoving"))
-        {
-            return;
-        }
-
-        if (target == null)
-        {
-            Debug.Log("target");
-        }
         dist = target.transform.position - transform.position;
         sqrLen = dist.sqrMagnitude;
 
+        if (anim.GetBool("stopMoving"))
+        {
+            if (oneMoo)
+            {
+                playlist.playInteractionSound("moo", true);
+                oneMoo = false;
+            }
+            if (sqrLen > chaseDepth * chaseDepth)
+            {
+                anim.SetBool("stopMoving", false);
+            }
+            else
+            {
+                return;
+            }          
+        }
+
         if (sqrLen > seenDepth * seenDepth)
         {
+            // Enemy can't see player
             anim.SetBool("hasSeenPlayer", false);
             anim.SetBool("isGalloping", false);
+            oneMoo = true;
             currentSpeed = 0f;
 
             if (eatTimer >= timeUntilEnemyEats)
@@ -258,37 +207,23 @@ public class Enemy : MonoBehaviour
             }
             return; // We don't care about the player's position
         }
-        
-        // Face player
-        rotateTowardsPlayer();
-
-        if (sqrLen < seenDepth * seenDepth)
+        else
         {
-            runTowardsPlayer();
+            // Enemy can see player
+            // Face player
+            rotateTowardsPlayer();
+            // Start walking towards player
+            anim.SetBool("hasSeenPlayer", true);
+            anim.SetBool("isHungry", false);
+            eatTimer = 0f;
+
+            // Move player
+            anim.SetBool("isGalloping", true);
+            currentSpeed = gallopSpeed;
+            updatePosition();
             return;
         }
    }
-
-    private void walkTowardsPlayer()
-    {
-        // Start walking towards player
-        anim.SetBool("hasSeenPlayer", true);
-        anim.SetBool("isHungry", false);
-        anim.SetBool("isGalloping", false);
-        currentSpeed = walkSpeed;
-        eatTimer = 0f;
-        updatePosition();
-    }
-    private void runTowardsPlayer()
-    {
-        // Start walking towards player
-        anim.SetBool("hasSeenPlayer", true);
-        anim.SetBool("isGalloping", true);
-        anim.SetBool("isHungry", false);
-        currentSpeed = gallopSpeed;
-        eatTimer = 0f;
-        updatePosition();
-    }
 
     private void updatePosition()
     {
@@ -308,6 +243,7 @@ public class Enemy : MonoBehaviour
     }
     public bool takeDamage(float damageAmount)
     {
+        playlist.playInteractionSound("stab", true);
         float res = enemyHealth - damageAmount;
         if (res >= 0f)
         {
