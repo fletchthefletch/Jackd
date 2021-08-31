@@ -20,11 +20,13 @@ public class PauseMenu : MonoBehaviour
     public Text objectiveText;
     public PlayListCycler playlist;
     private bool menuIsOpen = false;
+    private EnemyManager eManager;
 
     void Start()
     {
         playlist = FindObjectOfType<PlayListCycler>();
         game = FindObjectOfType<MainGame>();
+        eManager = FindObjectOfType<EnemyManager>();
     }
 
     public bool isOpen() {
@@ -38,6 +40,9 @@ public class PauseMenu : MonoBehaviour
         menuIsOpen = false;
         playlist.playInteractionSound("closingMenuSound", true);
         playlist.fadeInSoundsExcept("closingMenuSound", 1f);
+
+        // Unfreeze enemies and waves
+        eManager.setGamePaused(false);
     }
 
     public void openPauseMenu()
@@ -47,7 +52,18 @@ public class PauseMenu : MonoBehaviour
         {
             playlist = FindObjectOfType<PlayListCycler>();
         }
-   
+        if (eManager == null)
+        {
+            eManager = FindObjectOfType<EnemyManager>();
+        }
+        if (game == null)
+        {
+            game = FindObjectOfType<MainGame>();
+        }
+
+        // Freeze enemies and waves
+        eManager.setGamePaused(true);
+
         playlist.playInteractionSound("openingMenuSound", true);
         playlist.fadeOutSoundsExcept("openingMenuSound", 1f);
 
@@ -55,21 +71,12 @@ public class PauseMenu : MonoBehaviour
         backgroundMusicSlider.value = playlist.getCurrentBackgroundMusicVolume();
         FXSlider.value = playlist.getCurrentFXVolume();
 
-        if (game == null)
-        {
-            game = FindObjectOfType<MainGame>();
-            if (game == null)
-            {
-                Debug.Log("Could not locate game");
-            }
-        }
-
         // Update player values
         objectiveText.text = game.gameObjectives.getCurrentObjective();
         scoreText.text = game.player.getPlayerScore().ToString(); 
 
         menu.SetActive(true);
-        menuIsOpen = true;            
+        menuIsOpen = true;
     }
 
     public void playButtonHover() 

@@ -29,8 +29,11 @@ public class Enemy : MonoBehaviour
     private CharacterController enemyController;
     private Animator anim;
     private EnemyManager manager;
+    private PauseMenu menu;
 
     private int enemyScoreValue = 100;
+    private bool gameIsPaused = false;
+
 
     void Start()
     {
@@ -44,7 +47,6 @@ public class Enemy : MonoBehaviour
         // Retrieve game objects
         enemyController = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
-
         manager = FindObjectOfType<EnemyManager>();
         if (player == null)
         {
@@ -164,6 +166,20 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
+    public void setGamePaused(bool val)
+    {
+        this.gameIsPaused = val;
+        if (val)
+        {
+            // Freeze current animation 
+            anim.speed = 0;
+        }
+        else
+        {
+            // Unfreeze animation
+            anim.speed = 1;
+        }
+    }
     public void Update()
     {
         if (id != 0)
@@ -174,7 +190,11 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-
+        if (gameIsPaused)
+        {
+            // Game is paused
+            return; 
+        }
         if (enemyHealth <= 0f)
         {
             // Start death animation --> enemy is dead

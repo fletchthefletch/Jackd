@@ -44,6 +44,7 @@ public class EnemyManager : MonoBehaviour
     private List<Vector3> spawnPoints;
     private List<GameObject> voids;
     private int currentSpawnPointIndex;
+    private bool gameIsPaused = false;
 
     private void Start()
     {
@@ -59,6 +60,15 @@ public class EnemyManager : MonoBehaviour
         {
             spawnPoints.Add(g.transform.position);
         }
+    }
+    public void setGamePaused(bool isPaused)
+    {
+        gameIsPaused = isPaused;
+        foreach (GameObject enemy in enemies)
+        {
+            enemy.GetComponent<Enemy>().setGamePaused(isPaused);
+        }
+        
     }
     public void startFirstWave()
     {
@@ -81,6 +91,12 @@ public class EnemyManager : MonoBehaviour
                 enemies.Remove(enemies[i]);
             }
         }
+
+        if (gameIsPaused)
+        {
+            return;
+        }
+
         if (currentWave < numberOfWaves)
         {
             updateWaveTime();

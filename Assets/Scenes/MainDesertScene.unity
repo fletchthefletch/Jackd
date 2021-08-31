@@ -13943,8 +13943,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWave: 0
-  TimeBetweenWaves: 60
-  numberOfWaves: 5
+  TimeBetweenWaves: 5
+  numberOfWaves: 1
   waveBannerDisplayTime: 5
   waveCounterUI: {fileID: 122592479}
   waveWindow: {fileID: 569485291}
