@@ -2981,13 +2981,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1919c0d22ee6f14d99bf346091ea6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGalloping: 0
-  hasSeenPlayer: 0
-  isEating: 0
-  displayAfterDeathTime: 5
-  timeUntilEnemyEats: 5
-  isAlive: 0
   id: 0
+  hitRange: 2.3
 --- !u!65 &490947081
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3575,7 +3570,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590029948}
-  m_LocalRotation: {x: 0.13072903, y: 0.22906975, z: -0.031061437, w: 0.96409136}
+  m_LocalRotation: {x: 0.13072902, y: 0.22906972, z: -0.031061433, w: 0.96409136}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9030,7 +9025,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: 0.0024469642, y: 0.18548633, z: -0.0004618952, w: 0.9826437}
+  m_LocalRotation: {x: 0.002446663, y: 0.18616737, z: -0.0004635948, w: 0.9825149}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11259,7 +11254,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155955481}
-  m_LocalRotation: {x: 0.16566333, y: 0.2277903, z: -0.0393619, w: 0.9587064}
+  m_LocalRotation: {x: 0.1656633, y: 0.22779027, z: -0.039361887, w: 0.9587064}
   m_LocalPosition: {x: -270.83972, y: 2.29, z: 29.34712}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13885,7 +13880,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661882869}
-  m_LocalRotation: {x: 0.16566333, y: 0.22779028, z: -0.039361898, w: 0.9587064}
+  m_LocalRotation: {x: 0.16566332, y: 0.22779025, z: -0.039361883, w: 0.9587064}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
