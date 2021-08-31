@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float gallopSpeed = 1.4f;
+    private float gallopSpeed = 1.9f;
     private float enemyHealth;
     private float currentSpeed = 0f;
     private float rotationSpeed = 1f;
