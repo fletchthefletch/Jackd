@@ -61,11 +61,11 @@ public class PlayerController : MonoBehaviour
 
     // Current player state
 
-    [SerializeField] 
+    [SerializeField]
     private float smoothSpeed;
 
     // Main game camera
-    [SerializeField] 
+    [SerializeField]
     private Camera cam;
 
     private PlayListCycler playlist;
@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
         playlist = FindObjectOfType<PlayListCycler>();
     }
     public void playStep()
-    { 
+    {
         playlist.playPlayerSound("Step", true);
     }
     public void playJump()
@@ -138,6 +138,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
         // Update current player state and movement
+        UpdatePlayerFighting();
         UpdatePlayerState();
         UpdateHorizontalMovement();
         if (isClimbing && transform.position.y < maxClimbHeight)
@@ -147,11 +148,25 @@ public class PlayerController : MonoBehaviour
         }
         UpdateVerticalMovement();
         UpdateRotation();
-        
+
         // Main Move   
         controller.Move(movement * Time.deltaTime + movementJump * Time.deltaTime);
     }
- 
+
+    private void UpdatePlayerFighting()
+    {
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            Debug.Log("Fighting");
+            animator.SetBool("fight", true);
+        }
+        else
+        {
+
+            animator.SetBool("fight", false);
+
+        }
+    }
     private void UpdateRotation()
     {
         if (inputDirection != Vector3.zero)            
