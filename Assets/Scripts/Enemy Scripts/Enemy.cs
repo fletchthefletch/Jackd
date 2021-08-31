@@ -30,6 +30,8 @@ public class Enemy : MonoBehaviour
     private Animator anim;
     private EnemyManager manager;
 
+    private int enemyScoreValue = 100;
+
     void Start()
     {
 
@@ -270,6 +272,7 @@ public class Enemy : MonoBehaviour
         else
         {
             // Enemy is dead! Should destroy this enemy in the enemy manager
+            player.setPlayerScore(enemyScoreValue); ;
             setEnemyHealth(0f);
             return false;
 
