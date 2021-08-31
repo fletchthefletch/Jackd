@@ -60,8 +60,6 @@ public class PlayerController : MonoBehaviour
     };
 
     // Current player state
-    [SerializeField] 
-    private MoveState m_moveState;
 
     [SerializeField] 
     private float smoothSpeed;
@@ -96,7 +94,6 @@ public class PlayerController : MonoBehaviour
         }
         // Get main camera
         playerCam = cam.transform;
-        m_moveState = MoveState.Idle;
 
         // Get playlist
         playlist = FindObjectOfType<PlayListCycler>();
@@ -134,6 +131,11 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetFloat("speed", 0f);
             return; // Do not update player and state
+        }
+        if (game.player.getPlayerHealth() <= 0f)
+        {
+            // Don't receive player movement - player is dead
+            return;
         }
         // Update current player state and movement
         UpdatePlayerState();
@@ -214,13 +216,11 @@ public class PlayerController : MonoBehaviour
                 // Jump
                 m_speedY = m_jumpHeight;
                 animator.SetBool("jump", true);
-                m_moveState = MoveState.Jump;       
             }
         }
         else
         {
             // Falling / Jumping
-            m_moveState = MoveState.Jump;
             m_speedY -= GRAVITY * Time.deltaTime;
             if (transform.position.y > 10f && !animator.GetBool("canFall"))
             {
@@ -254,14 +254,12 @@ public class PlayerController : MonoBehaviour
                 {
                     // Run
                     m_speed = m_runSpeed;
-                    m_moveState = MoveState.Run;
                     animator.SetBool("running", true);
                 } 
                 else
                 {
                     // Walk
                     m_speed = m_walkSpeed;
-                    m_moveState = MoveState.Walk;
                     animator.SetBool("running", false);
                 }
             }
@@ -269,7 +267,6 @@ public class PlayerController : MonoBehaviour
             {
                 // Idle
                 m_speed = 0; 
-                m_moveState = MoveState.Idle;
                 animator.SetBool("running", false);
             }   
         } 
