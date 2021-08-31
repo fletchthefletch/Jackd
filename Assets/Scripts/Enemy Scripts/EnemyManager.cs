@@ -39,6 +39,8 @@ public class EnemyManager : MonoBehaviour
 
     // Enemies
     private List<GameObject> enemies;
+    private List<Enemy> enemyScripts;
+
     [SerializeField]
     private List<GameObject> spawnPointObjects;
     private List<Vector3> spawnPoints;
@@ -50,6 +52,7 @@ public class EnemyManager : MonoBehaviour
         playlist = FindObjectOfType<PlayListCycler>();
         game = FindObjectOfType<MainGame>();
         enemies = new List<GameObject>();
+        enemyScripts = new List<Enemy>();
         spawnPoints = new List<Vector3>();
         currentSpawnPointIndex = 0;
 
@@ -75,11 +78,53 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(showFirstWavePrompt());
     }
 
+    private void checkClosestEnemy()
+    {
+        Enemy closestEnemy = null;
+        float smallestDist = -1f;
+
+        foreach (GameObject g in enemies)
+        { 
+            Enemy e = g.GetComponent<Enemy>();
+            float dist = e.getDistanceToPlayer();
+            if (closestEnemy == null)
+            {
+                // First enemy
+                smallestDist = dist;
+                closestEnemy = e;
+                continue;
+            }
+            if (dist <= smallestDist)
+            {
+                // Disable enemy
+                closestEnemy.enabled = false;
+                closestEnemy = e;
+            }
+            else
+            {
+                // Disable enemy
+                e.enabled = false;
+            }
+        }
+        if (closestEnemy == null)
+        {
+            return;
+        }
+
+        // Enable closest enemy
+        closestEnemy.enabled = true;
+    }
+
     void Update()
     {
         if (wavesHaventStarted)
         {
             return; // Do nothing   
+        }
+
+        if (gameIsPaused)
+        {
+            return;
         }
 
         // Delete dead enemies
@@ -91,10 +136,11 @@ public class EnemyManager : MonoBehaviour
             }
         }
 
-        if (gameIsPaused)
-        {
-            return;
-        }
+        //if (enemies.Count >= 2)
+        //{
+            checkClosestEnemy();
+        //}
+
 
         if (currentWave < numberOfWaves)
         {
@@ -167,6 +213,7 @@ public class EnemyManager : MonoBehaviour
             // Cow
             GameObject cow = Instantiate(Cow, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0));
             enemies.Add(cow);
+            enemyScripts.Add(cow.GetComponent<Enemy>());
 
             // Destroy void
             yield return new WaitForSecondsRealtime(voidGenerationDelay);
@@ -190,6 +237,7 @@ public class EnemyManager : MonoBehaviour
             // Bull
             GameObject bull = null;// Instantiate(Bull, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0));
             enemies.Add(bull);
+            enemyScripts.Add(bull.GetComponent<Enemy>());
 
             // Destroy void
             yield return new WaitForSecondsRealtime(voidGenerationDelay);

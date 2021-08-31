@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float gallopSpeed = 1.2f;
+    private float gallopSpeed = 1.4f;
     private float enemyHealth;
     private float currentSpeed = 0f;
     private float rotationSpeed = 1f;
@@ -34,6 +34,12 @@ public class Enemy : MonoBehaviour
     private int enemyScoreValue = 100;
     private bool gameIsPaused = false;
 
+    public bool enabled = true;
+    //private bool touchingEnemy = false;//
+    //private List<Collider> touchingEnemies;
+    //[SerializeField]
+    //private Collider localBox;
+    //private bool colliderRunOnce = false;
 
     void Start()
     {
@@ -56,7 +62,10 @@ public class Enemy : MonoBehaviour
         if (playlist == null)
         {
             Debug.Log("Could not locate playlist in enemy class");
-        }        
+        }
+
+
+        //touchingEnemies = new List<Collider>();
     }
     public void setChaseDepth(int enemyType)
     {
@@ -86,6 +95,17 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        /*
+        if (other is CharacterController)
+        {
+            return;
+        }
+        if (other.Equals(localBox))
+        {
+            return;
+        }
+        */
+
         if (!isAlive)
         {
             return;
@@ -95,6 +115,16 @@ public class Enemy : MonoBehaviour
             // Cow should stop moving
             anim.SetBool("stopMoving", true);
         }
+        /*
+        if (other.CompareTag("Comrade"))
+        {
+            if (!touchingEnemies.Find(x => x == other))
+            {
+                touchingEnemies.Add(other);
+                touchingEnemy = true;
+            }
+        }
+        */
     }
     private void OnTriggerStay(Collider other)
     {
@@ -153,9 +183,22 @@ public class Enemy : MonoBehaviour
         }
         if (other.CompareTag("Player"))
         {
-            //anim.SetBool("stopMoving", false);
             anim.SetBool("isKicking", false);
         }
+        /*
+        if (other.CompareTag("Comrade"))
+        {
+            if (touchingEnemies.Find(x => x == other))
+            {
+                touchingEnemies.Remove(other);
+            }
+        }
+        if (touchingEnemies.Count == 0)
+        {
+            // Deletecode        
+            touchingEnemy = false;
+        }
+        */
     }
 
     private void rotateTowardsPlayer()
@@ -164,6 +207,26 @@ public class Enemy : MonoBehaviour
         var targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
         // Smoothly rotate towards the target point.
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    /*
+    private void checkDistanceBetweenEnemies()
+    { 
+        foreach (Collider c in touchingEnemies)
+        {
+            if (c.GetComponentInParent<Enemy>().getDist() > sqrLen)
+            { 
+                
+            }
+
+        }
+    }
+
+    */
+
+    public float getDistanceToPlayer()
+    {
+        return sqrLen;    
     }
 
     public void setGamePaused(bool val)
@@ -208,6 +271,24 @@ public class Enemy : MonoBehaviour
         dist = target.transform.position - transform.position;
         sqrLen = dist.sqrMagnitude;
 
+
+        /*
+
+
+        if (touchingEnemy)
+        {
+            if (!checkDistanceBetweenEnemies())
+            {
+                // Enemy can't see player
+                anim.SetBool("hasSeenPlayer", false);
+                anim.SetBool("isGalloping", false);
+                oneMoo = true;
+                currentSpeed = 0f;
+                return;
+            }
+        }
+        */
+
         rotateTowardsPlayer();
 
         if (anim.GetBool("stopMoving"))
@@ -248,10 +329,21 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+
+            if (!enabled)
+            {
+                if (anim.GetBool("isGalloping"))
+                {
+                    anim.SetBool("isGalloping", false);
+                }
+                if (anim.GetBool("hasSeenPlayer"))
+                {
+                    anim.SetBool("hasSeenPlayer", false);
+                }
+                return;
+            }
+
             // Enemy can see player
-            // Face player
-            //rotateTowardsPlayer();
-            // Start walking towards player
             anim.SetBool("hasSeenPlayer", true);
             anim.SetBool("isHungry", false);
             eatTimer = 0f;
