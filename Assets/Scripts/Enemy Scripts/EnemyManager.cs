@@ -10,9 +10,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     private int currentWave;
     [SerializeField]
-    private int TimeBetweenWaves;
+    private int TimeBetweenWaves = 60;
     [SerializeField]
-    private float numberOfWaves;
+    private float numberOfWaves = 5f;
     [SerializeField]
     private float waveBannerDisplayTime;
     [SerializeField]
@@ -42,7 +42,6 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> spawnPointObjects;
     private List<Vector3> spawnPoints;
-    private List<GameObject> voids;
     private int currentSpawnPointIndex;
     private bool gameIsPaused = false;
 
@@ -52,7 +51,6 @@ public class EnemyManager : MonoBehaviour
         game = FindObjectOfType<MainGame>();
         enemies = new List<GameObject>();
         spawnPoints = new List<Vector3>();
-        voids = new List<GameObject>();
         currentSpawnPointIndex = 0;
 
         // Get spawnpoint positions
@@ -160,7 +158,7 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < numOfCows; i++)
         {
             // Dark void
-            voids.Add(Instantiate(DarkVoidSmall, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0)));
+            GameObject voidOb = Instantiate(DarkVoidSmall, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0));
 
             // Delay
             yield return new WaitForSecondsRealtime(voidGenerationDelay);
@@ -168,6 +166,11 @@ public class EnemyManager : MonoBehaviour
             // Cow
             GameObject cow = Instantiate(Cow, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0));
             enemies.Add(cow);
+
+            // Destroy void
+            yield return new WaitForSecondsRealtime(voidGenerationDelay);
+
+            Destroy(voidOb);
 
             // Set enemy variables here
             cow.GetComponent<Enemy>().setChaseDepth(0);
@@ -178,7 +181,7 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < numOfBulls; i++)
         {
             // Dark void
-            voids.Add(Instantiate(DarkVoidSmall, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0)));
+            GameObject voidOb = Instantiate(DarkVoidSmall, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0));
 
             // Delay
             yield return new WaitForSecondsRealtime(voidGenerationDelay);
@@ -187,17 +190,15 @@ public class EnemyManager : MonoBehaviour
             GameObject bull = null;// Instantiate(Bull, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0));
             enemies.Add(bull);
 
+            // Destroy void
+            yield return new WaitForSecondsRealtime(voidGenerationDelay);
+
+            Destroy(voidOb);
             // Set variables here
             bull.GetComponent<Enemy>().setChaseDepth(1);
             currentSpawnPointIndex++;
         }
-
-        // Destroy voids
-        foreach (GameObject obj in voids)
-        {
-            Destroy(obj);
-            yield return new WaitForSecondsRealtime(voidGenerationDelay);
-        }
+  
         yield return null;
     }
 

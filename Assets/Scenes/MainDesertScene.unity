@@ -3570,7 +3570,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590029948}
-  m_LocalRotation: {x: 0.13072902, y: 0.22906972, z: -0.031061433, w: 0.96409136}
+  m_LocalRotation: {x: 0.13072903, y: 0.22906978, z: -0.031061444, w: 0.96409136}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9025,7 +9025,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: 0.0024419043, y: 0.19598421, z: -0.0004880408, w: 0.98060393}
+  m_LocalRotation: {x: 0.0024419043, y: 0.1959842, z: -0.00048804077, w: 0.98060393}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13944,7 +13944,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentWave: 0
   TimeBetweenWaves: 5
-  numberOfWaves: 1
+  numberOfWaves: 2
   waveBannerDisplayTime: 5
   waveCounterUI: {fileID: 122592479}
   waveWindow: {fileID: 569485291}
