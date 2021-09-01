@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+// This class manages the player instance
 
 public class Player : MonoBehaviour
 {

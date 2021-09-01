@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+// This class manages an enemy instance
 
 public class Enemy : MonoBehaviour
 {
@@ -34,12 +34,7 @@ public class Enemy : MonoBehaviour
     private int enemyScoreValue = 100;
     private bool gameIsPaused = false;
 
-    public bool enabled = true;
-    //private bool touchingEnemy = false;//
-    //private List<Collider> touchingEnemies;
-    //[SerializeField]
-    //private Collider localBox;
-    //private bool colliderRunOnce = false;
+    public new bool enabled = true;
 
     void Start()
     {
@@ -63,9 +58,6 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("Could not locate playlist in enemy class");
         }
-
-
-        //touchingEnemies = new List<Collider>();
     }
     public void setChaseDepth(int enemyType)
     {
@@ -209,21 +201,6 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
-    /*
-    private void checkDistanceBetweenEnemies()
-    { 
-        foreach (Collider c in touchingEnemies)
-        {
-            if (c.GetComponentInParent<Enemy>().getDist() > sqrLen)
-            { 
-                
-            }
-
-        }
-    }
-
-    */
-
     public float getDistanceToPlayer()
     {
         return sqrLen;    
@@ -270,24 +247,6 @@ public class Enemy : MonoBehaviour
 
         dist = target.transform.position - transform.position;
         sqrLen = dist.sqrMagnitude;
-
-
-        /*
-
-
-        if (touchingEnemy)
-        {
-            if (!checkDistanceBetweenEnemies())
-            {
-                // Enemy can't see player
-                anim.SetBool("hasSeenPlayer", false);
-                anim.SetBool("isGalloping", false);
-                oneMoo = true;
-                currentSpeed = 0f;
-                return;
-            }
-        }
-        */
 
         rotateTowardsPlayer();
 

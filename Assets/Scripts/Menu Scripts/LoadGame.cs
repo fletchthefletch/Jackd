@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LoadGame : MonoBehaviour
 {
-    public AudioClip audio;
+    public new AudioClip audio;
     public AudioSource source;
 
     public void LoadLevel(int sceneIndex)

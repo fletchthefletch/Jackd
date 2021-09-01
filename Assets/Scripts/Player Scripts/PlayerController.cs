@@ -1,4 +1,5 @@
 using UnityEngine;
+// This class manages movement of the player instance
 
 public class PlayerController : MonoBehaviour
 {
@@ -138,7 +139,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
         // Update current player state and movement
-        UpdatePlayerFighting();
+        UpdatePlayerFightingState();
         UpdatePlayerState();
         UpdateHorizontalMovement();
         if (isClimbing && transform.position.y < maxClimbHeight)
@@ -153,20 +154,30 @@ public class PlayerController : MonoBehaviour
         controller.Move(movement * Time.deltaTime + movementJump * Time.deltaTime);
     }
 
-    private void UpdatePlayerFighting()
+    private void UpdatePlayerFightingState()
     {
+        // Punching
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            Debug.Log("Fighting");
-            animator.SetBool("fight", true);
+            animator.SetBool("punch", true);
         }
         else
         {
+            animator.SetBool("punch", false);
 
-            animator.SetBool("fight", false);
+        }
+        // Kicking
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            animator.SetBool("kick", true);
+        }
+        else
+        {
+            animator.SetBool("kick", false);
 
         }
     }
+
     private void UpdateRotation()
     {
         if (inputDirection != Vector3.zero)            
