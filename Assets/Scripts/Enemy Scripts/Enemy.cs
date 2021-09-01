@@ -34,6 +34,16 @@ public class Enemy : MonoBehaviour
     private int enemyScoreValue = 100;
     private bool gameIsPaused = false;
 
+    // Enemy minimap icon
+    [SerializeField]
+    private GameObject icon;
+    private SpriteRenderer iconRenderer;
+
+    [SerializeField]
+    private Color healthBadColor;
+    [SerializeField]
+    private Color healthAverageColor; 
+
     public new bool enabled = true;
 
     void Start()
@@ -49,6 +59,8 @@ public class Enemy : MonoBehaviour
         enemyController = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         manager = FindObjectOfType<EnemyManager>();
+        iconRenderer = icon.GetComponent<SpriteRenderer>();
+
         if (player == null)
         {
             Debug.Log("Could not locate player");
@@ -338,6 +350,14 @@ public class Enemy : MonoBehaviour
         if (res > 0f)
         {
             setEnemyHealth(res);
+            if (res <= 0.25)
+            {
+                iconRenderer.color = healthBadColor;
+            }
+            else if (res <= 75)
+            {
+                iconRenderer.color = healthAverageColor;
+            }
             return true;
         }
         else
