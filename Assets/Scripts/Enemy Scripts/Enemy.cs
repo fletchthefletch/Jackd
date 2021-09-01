@@ -155,14 +155,14 @@ public class Enemy : MonoBehaviour
         {
             // Player has been kicked!
             // Kick range
-            //playlist.playInteractionSound("stab", true); //#enable
+            playlist.playInteractionSound("stab", true);
             //player.takeDamage(0.25f);//#enable
         }
         else if (dot > 0.75)
         {
             // Player has been headbutted!
             // Headbutt range
-            //playlist.playInteractionSound("stab", true); //#enable
+            playlist.playInteractionSound("stab", true);
             //player.takeDamage(0.15f); //#enable
         }
     }
