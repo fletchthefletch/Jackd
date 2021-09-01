@@ -33,6 +33,7 @@ public class EnemyManager : MonoBehaviour
 
     // Spawn objects
     public GameObject Cow;
+    public GameObject Bull;
     public GameObject DarkVoidSmall;
     private float voidGenerationDelay = 3f;
 
@@ -237,6 +238,8 @@ public class EnemyManager : MonoBehaviour
 
             // Set enemy variables here
             cow.GetComponent<Enemy>().setChaseDepth(0);
+            cow.GetComponent<Enemy>().setEnemyHealth(0);
+            cow.GetComponent<Enemy>().setEnemyRotationSpeed(0);
             currentSpawnPointIndex++;
         }
 
@@ -250,7 +253,7 @@ public class EnemyManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(voidGenerationDelay);
 
             // Bull
-            GameObject bull = null;// Instantiate(Bull, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0));
+            GameObject bull = Instantiate(Bull, spawnPoints[currentSpawnPointIndex], Quaternion.Euler(0, 0, 0));
             enemies.Add(bull);
             enemyScripts.Add(bull.GetComponent<Enemy>());
 
@@ -259,7 +262,9 @@ public class EnemyManager : MonoBehaviour
 
             Destroy(voidOb);
             // Set variables here
-            bull.GetComponent<Enemy>().setChaseDepth(1);
+            bull.GetComponent<Enemy>().setChaseDepth(0);
+            bull.GetComponent<Enemy>().setEnemyHealth(1);
+            bull.GetComponent<Enemy>().setEnemyRotationSpeed(1);
             currentSpawnPointIndex++;
         }
   
@@ -280,15 +285,15 @@ public class EnemyManager : MonoBehaviour
                 break;
             case 2:
                 Debug.Log("Third Wave Coming...");
-                //StartCoroutine(spawnEnemiesForWave(0, 1));
+                StartCoroutine(spawnEnemiesForWave(0, 1));
                 break;
             case 3:
                 Debug.Log("Fourth Wave Coming...");
-                //StartCoroutine(spawnEnemiesForWave(2, 1));
+                StartCoroutine(spawnEnemiesForWave(2, 1));
                 break;
             case 4:
                 Debug.Log("Fifth Wave Coming...");
-                //StartCoroutine(spawnEnemiesForWave(1, 2));
+                StartCoroutine(spawnEnemiesForWave(1, 2));
                 break;
         }
     }

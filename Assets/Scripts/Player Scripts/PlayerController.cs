@@ -136,7 +136,6 @@ public class PlayerController : MonoBehaviour
 
             if (sqrLen < damageRange * damageRange)
             {
-                Debug.Log("hurting enemy");// this is not damaging the enemy enough
                 enemy.GetComponent<Enemy>().takeDamage(damageDealt);
             }
         }

@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     private float rotationSpeed = 0.7f;
     private float seenDepth = 10.0f;
     private float chaseDepth = 3f;
+    private float enemyKickDamage = 0.25f;
+    private float enemyHeadButtDamage = 0.15f;
     private float displayAfterDeathTime = 5f;
     private float timeUntilEnemyEats = 5f;
     private float eatTimer = 0f;
@@ -77,11 +79,55 @@ public class Enemy : MonoBehaviour
                 break;
             case 1:
                 // Bull
-                chaseDepth = 4f;
+                chaseDepth = 5f;
                 break;
         }
     }
- 
+    public void setEnemyDamageInflicted(int enemyType)
+    {
+        switch (enemyType)
+        {
+            case 0:
+                // Cow
+                enemyHeadButtDamage = 0.15f;
+                enemyKickDamage = 0.25f;
+                break;
+            case 1:
+                // Bull
+                enemyHeadButtDamage = 0.35f;
+                enemyKickDamage = 0.3f;
+                break;
+        }
+    }
+    public void setEnemyHealth(int enemyType)
+    {
+        switch (enemyType)
+        {
+            case 0:
+                // Cow
+                enemyHealth = 1f;
+                break;
+            case 1:
+                // Bull
+                enemyHealth = 2f;
+                break;
+        }
+    }
+    public void setEnemyRotationSpeed(int enemyType)
+    {
+        switch (enemyType)
+        {
+            case 0:
+                // Cow
+                rotationSpeed = 1f;
+                break;
+            case 1:
+                // Bull
+                rotationSpeed = 3.5f;
+                break;
+        }
+    }
+
     private IEnumerator enemyDeath()
     {
         anim.SetBool("isAlive", false);
@@ -95,17 +141,6 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        /*
-        if (other is CharacterController)
-        {
-            return;
-        }
-        if (other.Equals(localBox))
-        {
-            return;
-        }
-        */
-
         if (!isAlive)
         {
             return;
@@ -115,16 +150,6 @@ public class Enemy : MonoBehaviour
             // Cow should stop moving
             anim.SetBool("stopMoving", true);
         }
-        /*
-        if (other.CompareTag("Comrade"))
-        {
-            if (!touchingEnemies.Find(x => x == other))
-            {
-                touchingEnemies.Add(other);
-                touchingEnemy = true;
-            }
-        }
-        */
     }
     private void OnTriggerStay(Collider other)
     {
@@ -164,14 +189,14 @@ public class Enemy : MonoBehaviour
             // Player has been kicked!
             // Kick range
             playlist.playInteractionSound("stab", true);
-            player.takeDamage(0.25f);
+            player.takeDamage(enemyKickDamage); // 0.25f
         }
         else if (dot > 0.75)
         {
             // Player has been headbutted!
             // Headbutt range
             playlist.playInteractionSound("stab", true);
-            player.takeDamage(0.15f);
+            player.takeDamage(enemyHeadButtDamage); // 0.15f
         }
     }
 

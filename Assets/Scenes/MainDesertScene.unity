@@ -3429,7 +3429,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590029948}
-  m_LocalRotation: {x: 0.13072903, y: 0.22906978, z: -0.031061444, w: 0.96409136}
+  m_LocalRotation: {x: 0.13072903, y: 0.22906975, z: -0.031061437, w: 0.96409136}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -8884,7 +8884,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: 0.0024422861, y: 0.19522263, z: -0.00048614503, w: 0.9807558}
+  m_LocalRotation: {x: 0.0024394554, y: 0.2008174, z: -0.0005000739, w: 0.9796255}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11142,7 +11142,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155955481}
-  m_LocalRotation: {x: 0.1656633, y: 0.22779027, z: -0.03936188, w: 0.9587064}
+  m_LocalRotation: {x: 0.16566333, y: 0.2277903, z: -0.039361894, w: 0.9587064}
   m_LocalPosition: {x: -270.83972, y: 2.29, z: 29.34712}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13768,7 +13768,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661882869}
-  m_LocalRotation: {x: 0.16566332, y: 0.22779025, z: -0.039361883, w: 0.9587064}
+  m_LocalRotation: {x: 0.16566333, y: 0.22779028, z: -0.039361898, w: 0.9587064}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13832,7 +13832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWave: 0
-  TimeBetweenWaves: 5
+  TimeBetweenWaves: 30
   numberOfWaves: 5
   waveBannerDisplayTime: 5
   waveCounterUI: {fileID: 122592479}
@@ -13840,6 +13840,7 @@ MonoBehaviour:
   waveBannerUI: {fileID: 1654186771}
   guidePrompt: {fileID: 1883292588}
   Cow: {fileID: 3349421710000922689, guid: 0a4a2d45aa7474746a05fe5ad24c4ef2, type: 3}
+  Bull: {fileID: 7216756234259687064, guid: d16e24a3bd87ead4989e2d788e60069c, type: 3}
   DarkVoidSmall: {fileID: 1747957803461981131, guid: 1689d7a437096974fabf8e933330fa83, type: 3}
   spawnPointObjects:
   - {fileID: 1577410553}
