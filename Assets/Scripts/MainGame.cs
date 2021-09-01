@@ -115,7 +115,6 @@ public class MainGame : MonoBehaviour
                 gameObjectives.plantBeans();
                 break;
             case "waves":
-                //gameObjectives.fightWaves();
                 break;
             case "beanstalk":
                 gameObjectives.startNextObjective();

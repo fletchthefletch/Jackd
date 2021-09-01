@@ -67,6 +67,15 @@ public class EnemyManager : MonoBehaviour
         gameIsPaused = isPaused;
         foreach (GameObject enemy in enemies)
         {
+            if (enemy == null)
+            {
+                continue;
+            }
+            if (enemy.GetComponent<Enemy>() == null)
+            {
+                continue;
+            }
+
             enemy.GetComponent<Enemy>().setGamePaused(isPaused);
         }
 
@@ -163,7 +172,7 @@ public class EnemyManager : MonoBehaviour
             // This gets called once after the final wave has been generated
             nextWaveIn = 0.0f;
             allWavesFinished = true;
-            game.gameObjectives.startNextObjective();
+            game.playerCompletedObjective();
         }
     }
 

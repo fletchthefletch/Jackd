@@ -15,6 +15,7 @@ public class DetectPlayerBeanstalk : MonoBehaviour
     [SerializeField]
     private GameObject dirtPlatform;
     private PlayerController playerCon;
+    private BeanStalkHandler beanStalkhandler;
 
     private string objectiveTag = "beanstalk";
 
@@ -22,7 +23,8 @@ public class DetectPlayerBeanstalk : MonoBehaviour
     private void Start()
     {
         game = FindObjectOfType<MainGame>();
-        
+        beanStalkhandler = FindObjectOfType<BeanStalkHandler>();
+
         // Local collision ignorance
         Physics.IgnoreCollision(mainStalkColliderInteractive, stalkBaseCollider, true);
         Physics.IgnoreCollision(mainStalkColliderInteractive, mainStalkCollider, true);
@@ -42,28 +44,6 @@ public class DetectPlayerBeanstalk : MonoBehaviour
         playerCon = FindObjectOfType<PlayerController>();
     }
 
-
-    private void OnTriggerEnter(Collider other)
-    {
-        /*
-        if (!checkObjective(objectiveTag))
-        {
-            return;
-        }
-        if (other.CompareTag("Player"))
-        {
-            // Player is walking on dirt platform
-            guidePrompt.text = "Hold 'F' to Climb Beanstalk";
-          
-            // Perform climb here
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                guidePrompt.text = "";
-                playerCon.startStopClimbing(true);
-            }
-        }
-        */
-    }
     private void OnTriggerExit(Collider other)
     {
         if (!checkObjective(objectiveTag))
@@ -108,7 +88,10 @@ public class DetectPlayerBeanstalk : MonoBehaviour
     {
         if (game.gameObjectives.getCurrentObjectiveTag().Equals(obj))
         {
-            return true;
+            if (beanStalkhandler.isBeanStalkFullyGrown())
+            {
+                return true;
+            }
         }
         return false;
     }
