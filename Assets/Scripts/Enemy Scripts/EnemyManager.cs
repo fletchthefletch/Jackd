@@ -151,10 +151,10 @@ public class EnemyManager : MonoBehaviour
             }
         }
 
-        //if (enemies.Count >= 2)
-        //{
+        if (enemies.Count >= 2)
+        {
             checkClosestEnemy();
-        //}
+        }
 
 
         if (currentWave < numberOfWaves)
