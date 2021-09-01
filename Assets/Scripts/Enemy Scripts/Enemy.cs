@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     private float hitRange = 2.3f;
     private int enemyScoreValue = 50;
     private bool gameIsPaused = false;
-    public new bool enabled = true;
+    private bool enabledEnem = true;
 
     // Gameobjects
     private Player player;
@@ -69,21 +69,16 @@ public class Enemy : MonoBehaviour
             Debug.Log("Could not locate playlist in enemy class");
         }
     }
-    public void setChaseDepth(int enemyType)
+
+    public void setEnabled(bool enable)
     {
-        switch (enemyType)
-        {
-            case 0:
-                // Cow
-                chaseDepth = 3f;
-                break;
-            case 1:
-                // Bull
-                chaseDepth = 5f;
-                break;
-        }
+        this.enabledEnem = enable;
     }
-    public void setEnemyDamageInflicted(int enemyType)
+    public bool getEnabled()
+    {
+        return enabledEnem;
+    }
+    public void setEnemy(int enemyType)
     {
         switch (enemyType)
         {
@@ -91,42 +86,23 @@ public class Enemy : MonoBehaviour
                 // Cow
                 enemyHeadButtDamage = 0.15f;
                 enemyKickDamage = 0.25f;
+                rotationSpeed = 1f;
+                gallopSpeed = 1.6f;
+                chaseDepth = 3f;
+                setEnemyHealth(1f);
                 break;
             case 1:
                 // Bull
                 enemyHeadButtDamage = 0.35f;
                 enemyKickDamage = 0.3f;
+                rotationSpeed = 1.5f;
+                gallopSpeed = 1.9f;
+                chaseDepth = 3f;
+                setEnemyHealth(2f);
                 break;
         }
     }
-    public void setEnemyHealth(int enemyType)
-    {
-        switch (enemyType)
-        {
-            case 0:
-                // Cow
-                enemyHealth = 1f;
-                break;
-            case 1:
-                // Bull
-                enemyHealth = 2f;
-                break;
-        }
-    }
-    public void setEnemyRotationSpeed(int enemyType)
-    {
-        switch (enemyType)
-        {
-            case 0:
-                // Cow
-                rotationSpeed = 1f;
-                break;
-            case 1:
-                // Bull
-                rotationSpeed = 3.5f;
-                break;
-        }
-    }
+  
 
     private IEnumerator enemyDeath()
     {
@@ -135,7 +111,7 @@ public class Enemy : MonoBehaviour
         // Delay
         yield return new WaitForSecondsRealtime(displayAfterDeathTime);
 
-        // Destroy cow
+        // Destroy enemy
         Destroy(this.transform.gameObject);
     }
 
@@ -147,7 +123,7 @@ public class Enemy : MonoBehaviour
         }
         if (other.CompareTag("Player"))
         {
-            // Cow should stop moving
+            // Enemy should stop moving
             anim.SetBool("stopMoving", true);
         }
     }
@@ -162,12 +138,12 @@ public class Enemy : MonoBehaviour
 
         if (dot < -0.5)
         {
-            // Player is behind cow --> Kick
+            // Player is behind enemy --> Kick
             anim.SetBool("isKicking", true);
         }
         else
         {
-            // Player is in front of cow --> headbutt
+            // Player is in front of enemy --> headbutt
             anim.SetBool("isKicking", false);
         }
     }
@@ -210,20 +186,6 @@ public class Enemy : MonoBehaviour
         {
             anim.SetBool("isKicking", false);
         }
-        /*
-        if (other.CompareTag("Comrade"))
-        {
-            if (touchingEnemies.Find(x => x == other))
-            {
-                touchingEnemies.Remove(other);
-            }
-        }
-        if (touchingEnemies.Count == 0)
-        {
-            // Deletecode        
-            touchingEnemy = false;
-        }
-        */
     }
 
     private void rotateTowardsPlayer()
@@ -322,7 +284,7 @@ public class Enemy : MonoBehaviour
         else
         {
 
-            if (!enabled)
+            if (!enabledEnem)
             {
                 if (anim.GetBool("isGalloping"))
                 {
@@ -354,13 +316,13 @@ public class Enemy : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.fixedDeltaTime);
     }
 
-    public void setEnemyHealth(float val)
+    private void setEnemyHealth(float val)
     {
         // Update health var
         enemyHealth = val;
         return;
     }
-    public float getEnemyHealth()
+    private float getEnemyHealth()
     {
         return enemyHealth;
     }

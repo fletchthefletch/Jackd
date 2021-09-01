@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LoadGame : MonoBehaviour
 {
-    public new AudioClip audio;
+#pragma warning disable CS0108 
+    public AudioClip audio;
     public AudioSource source;
 
     public void LoadLevel(int sceneIndex)

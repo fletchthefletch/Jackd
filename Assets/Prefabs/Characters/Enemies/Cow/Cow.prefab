@@ -896,7 +896,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3349421710000922689}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 39.109024, y: 10.29, z: -12.184496}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 5879399456499739469}
@@ -967,11 +967,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  hitRange: 2.3
+  enabled: 1
   icon: {fileID: 2502559508957179505}
   healthBadColor: {r: 0.915, g: 0.8505484, b: 0.030212283, a: 1}
   healthAverageColor: {r: 1, g: 0.57575756, b: 0, a: 1}
-  enabled: 1
 --- !u!1 &3399736310747104056
 GameObject:
   m_ObjectHideFlags: 0
