@@ -1106,6 +1106,12 @@ MonoBehaviour:
     volume: 0.6
     pitch: 1
     mySource: {fileID: 0}
+  - name: thunk
+    soundClass: INTERACTION
+    clip: {fileID: 8300000, guid: 6dfc95aec688cb74dbdcf3dfca1babc8, type: 3}
+    volume: 1
+    pitch: 1
+    mySource: {fileID: 0}
 --- !u!4 &200168540 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 420546, guid: a45f923de9555884cbe160883ce87a74, type: 3}
@@ -13826,7 +13832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWave: 0
-  TimeBetweenWaves: 30
+  TimeBetweenWaves: 5
   numberOfWaves: 5
   waveBannerDisplayTime: 5
   waveCounterUI: {fileID: 122592479}

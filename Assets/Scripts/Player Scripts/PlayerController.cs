@@ -8,30 +8,16 @@ public class PlayerController : MonoBehaviour
     // Reference to the controller
     [SerializeField]
     private CharacterController controller;
-
     [SerializeField]
     private Animator animator;
-
     [SerializeField]
     private PauseMenu pauseMenu;
-
-    // Current Player Speed
     public float m_speed = 0f;
-
-    // Walk speed
     public float m_walkSpeed = 1.5f;
-
-    // Run speed
     public float m_runSpeed = 3f;
-
-    // Vertical speed
     public float m_speedY = 3f;
-
-    //Jump height
     public float m_jumpHeight = 5f;
     public float m_jumpControlAmount = 2f;
-
-    // Turn Speed
     public float m_turnSpeed = 300f;
 
     // Movement direction of the player
@@ -43,18 +29,15 @@ public class PlayerController : MonoBehaviour
     // Gravity
     private const float GRAVITY = 9.86f;
     private const float GRAVITY_STICK = 0.3f;
-
     private Transform playerCam;
 
     // Variables for falling
     private GameObject fallPrep;
     private float fallBuffer = 2f;
-    private float smoothSpeed;
 
     // Main game camera
     [SerializeField]
     private Camera cam;
-
     private PlayListCycler playlist;
 
     private bool isClimbing = false;
@@ -63,7 +46,7 @@ public class PlayerController : MonoBehaviour
     private MainGame game;
     private bool hasWon = false;
     [SerializeField]
-    private float damageRange = 3f;
+    private float damageRange = 10f;
 
     void Start()
     {
@@ -179,7 +162,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             animator.SetBool("kick", false);
-
         }
     }
 
@@ -242,7 +224,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("canFall", false);
 
             //If we press space and not already jumping and if we are not crawling or crouching, then jump
-            if (Input.GetKeyDown(KeyCode.Space) && !animator.GetBool("jump")) 
+            if (Input.GetKey(KeyCode.Space) && !animator.GetBool("jump")) 
             {
                 // Jump
                 m_speedY = m_jumpHeight;

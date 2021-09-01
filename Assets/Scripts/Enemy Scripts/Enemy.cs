@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float gallopSpeed = 1.4f;
+    private float gallopSpeed = 1.6f;
     private float enemyHealth;
     private float currentSpeed = 0f;
-    private float rotationSpeed = 1f;
+    private float rotationSpeed = 0.7f;
     private float seenDepth = 10.0f;
     private float chaseDepth = 3f;
     private float displayAfterDeathTime = 5f;
@@ -18,9 +18,10 @@ public class Enemy : MonoBehaviour
     private bool isAlive;
     public int id;
     private bool oneMoo = true;
-
-    [SerializeField]
-    private float hitRange = 2.3f; 
+    private float hitRange = 2.3f;
+    private int enemyScoreValue = 50;
+    private bool gameIsPaused = false;
+    public new bool enabled = true;
 
     // Gameobjects
     private Player player;
@@ -31,20 +32,15 @@ public class Enemy : MonoBehaviour
     private EnemyManager manager;
     private PauseMenu menu;
 
-    private int enemyScoreValue = 100;
-    private bool gameIsPaused = false;
-
     // Enemy minimap icon
     [SerializeField]
     private GameObject icon;
     private SpriteRenderer iconRenderer;
-
     [SerializeField]
     private Color healthBadColor;
     [SerializeField]
     private Color healthAverageColor; 
 
-    public new bool enabled = true;
 
     void Start()
     {
@@ -345,7 +341,7 @@ public class Enemy : MonoBehaviour
     }
     public bool takeDamage(float damageAmount)
     {
-        playlist.playInteractionSound("stab", true);
+        playlist.playInteractionSound("thunk", true);
         float res = enemyHealth - damageAmount;
         if (res > 0f)
         {

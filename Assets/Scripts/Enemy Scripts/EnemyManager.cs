@@ -151,7 +151,7 @@ public class EnemyManager : MonoBehaviour
             }
         }
 
-        if (enemies.Count >= 2)
+        if (enemies.Count >= 1)
         {
             checkClosestEnemy();
         }
