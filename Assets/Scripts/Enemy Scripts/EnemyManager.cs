@@ -276,7 +276,7 @@ public class EnemyManager : MonoBehaviour
                 break;
             case 1:
                 Debug.Log("Second Wave Coming...");
-                StartCoroutine(spawnEnemiesForWave(3, 0));
+                StartCoroutine(spawnEnemiesForWave(2, 0));
                 break;
             case 2:
                 Debug.Log("Third Wave Coming...");

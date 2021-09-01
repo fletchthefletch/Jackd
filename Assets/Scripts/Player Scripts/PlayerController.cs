@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     private MainGame game;
     private bool hasWon = false;
     [SerializeField]
-    private float damageRange = 2f;
+    private float damageRange = 3f;
 
     void Start()
     {
@@ -153,6 +153,7 @@ public class PlayerController : MonoBehaviour
 
             if (sqrLen < damageRange * damageRange)
             {
+                Debug.Log("hurting enemy");// this is not damaging the enemy enough
                 enemy.GetComponent<Enemy>().takeDamage(damageDealt);
             }
         }
