@@ -3423,7 +3423,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590029948}
-  m_LocalRotation: {x: 0.13072903, y: 0.22906978, z: -0.031061444, w: 0.96409136}
+  m_LocalRotation: {x: 0.13072903, y: 0.22906975, z: -0.031061437, w: 0.96409136}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -8878,7 +8878,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: 0.0024430405, y: 0.19371271, z: -0.0004823867, w: 0.9810552}
+  m_LocalRotation: {x: 0.002449915, y: 0.17910089, z: -0.0004459947, w: 0.9838276}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11136,7 +11136,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155955481}
-  m_LocalRotation: {x: 0.16566333, y: 0.2277903, z: -0.039361887, w: 0.9587064}
+  m_LocalRotation: {x: 0.16566333, y: 0.2277903, z: -0.039361894, w: 0.9587064}
   m_LocalPosition: {x: -270.83972, y: 2.29, z: 29.34712}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13797,6 +13797,7 @@ MonoBehaviour:
   waveBannerText: {fileID: 1031274533}
   victoryColor: {r: 0.20998889, g: 0.4056604, b: 0, a: 0.5019608}
   failureColor: {r: 1, g: 0, b: 0.1319251, a: 0.5019608}
+  eManager: {fileID: 0}
 --- !u!114 &1661914998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13825,7 +13826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWave: 0
-  TimeBetweenWaves: 30
+  TimeBetweenWaves: 5
   numberOfWaves: 5
   waveBannerDisplayTime: 5
   waveCounterUI: {fileID: 122592479}
@@ -16489,7 +16490,6 @@ GameObject:
   - component: {fileID: 755216014}
   - component: {fileID: 755216012}
   - component: {fileID: 755216015}
-  - component: {fileID: 919132148970458273}
   - component: {fileID: 919132148970458274}
   m_Layer: 0
   m_Name: kaya@Breathing Idle
@@ -16498,19 +16498,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &919132148970458273
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148970458272}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.71, y: 2.06, z: 0.69}
-  m_Center: {x: 0, y: 1.13, z: -0.12}
 --- !u!114 &919132148970458274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16533,9 +16520,8 @@ MonoBehaviour:
   m_jumpHeight: 5
   m_jumpControlAmount: 2
   m_turnSpeed: 300
-  fallPrep: {fileID: 424568403}
-  smoothSpeed: 0
   cam: {fileID: 1155955485}
+  damageRange: 2
 --- !u!224 &919132148970458275
 RectTransform:
   m_ObjectHideFlags: 0

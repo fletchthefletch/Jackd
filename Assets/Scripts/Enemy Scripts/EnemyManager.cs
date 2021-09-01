@@ -39,6 +39,7 @@ public class EnemyManager : MonoBehaviour
     // Enemies
     private List<GameObject> enemies;
     private List<Enemy> enemyScripts;
+    private GameObject closestEnemyObject = null;
 
     [SerializeField]
     private List<GameObject> spawnPointObjects;
@@ -68,7 +69,7 @@ public class EnemyManager : MonoBehaviour
         {
             enemy.GetComponent<Enemy>().setGamePaused(isPaused);
         }
-        
+
     }
     public void startFirstWave()
     {
@@ -77,6 +78,10 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(showFirstWavePrompt());
     }
 
+    public GameObject getClosestEnemy()
+    { 
+        return closestEnemyObject;
+    }
     private void checkClosestEnemy()
     {
         Enemy closestEnemy = null;
@@ -91,6 +96,7 @@ public class EnemyManager : MonoBehaviour
                 // First enemy
                 smallestDist = dist;
                 closestEnemy = e;
+                closestEnemyObject = g;
                 continue;
             }
             if (dist <= smallestDist)
@@ -98,6 +104,7 @@ public class EnemyManager : MonoBehaviour
                 // Disable enemy
                 closestEnemy.enabled = false;
                 closestEnemy = e;
+                closestEnemyObject = g;
             }
             else
             {

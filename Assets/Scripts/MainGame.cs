@@ -33,7 +33,7 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     private Color failureColor;
     private bool playerDefeated = false;
-
+    public EnemyManager eManager;
 
 
     void Start()
@@ -43,6 +43,7 @@ public class MainGame : MonoBehaviour
         player = FindObjectOfType<Player>();
         gameObjectives = FindObjectOfType<Objectives>();
         exiter = FindObjectOfType<ExitToMenu>();
+        eManager = FindObjectOfType<EnemyManager>();
     }
 
     private void Update()

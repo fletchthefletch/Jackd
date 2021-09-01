@@ -47,22 +47,8 @@ public class PlayerController : MonoBehaviour
     private Transform playerCam;
 
     // Variables for falling
-    [SerializeField]
     private GameObject fallPrep;
     private float fallBuffer = 2f;
-
-    // Player state
-    public enum MoveState
-    {
-        Idle,
-        Walk,
-        Run,
-        Jump,
-    };
-
-    // Current player state
-
-    [SerializeField]
     private float smoothSpeed;
 
     // Main game camera
@@ -76,6 +62,8 @@ public class PlayerController : MonoBehaviour
     private float climbRate = 2f;
     private MainGame game;
     private bool hasWon = false;
+    [SerializeField]
+    private float damageRange = 2f;
 
     void Start()
     {
@@ -152,6 +140,22 @@ public class PlayerController : MonoBehaviour
 
         // Main Move   
         controller.Move(movement * Time.deltaTime + movementJump * Time.deltaTime);
+    }
+    public void hitEnemy(float damageDealt)
+    {
+        // Get distance to the closest enemy
+        GameObject enemy = game.eManager.getClosestEnemy();
+        if (enemy != null)
+        {
+
+            Vector3 dist = enemy.transform.position - transform.position;
+            float sqrLen = dist.sqrMagnitude;
+
+            if (sqrLen < damageRange * damageRange)
+            {
+                enemy.GetComponent<Enemy>().takeDamage(damageDealt);
+            }
+        }
     }
 
     private void UpdatePlayerFightingState()
