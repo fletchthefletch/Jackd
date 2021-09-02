@@ -10,7 +10,7 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private int preLoadDelay;
     [SerializeField] private int postLoadDelay;
 
-    // Short term method for data persistence
+    // Short term method for cheap data persistence
     private static string sceneAfterLoading = "MainDesertScene";
     private static int highScore = 0;
 

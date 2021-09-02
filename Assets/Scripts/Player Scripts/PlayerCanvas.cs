@@ -7,7 +7,6 @@ public class PlayerCanvas : MonoBehaviour
     private Slider healthbar;
     [SerializeField]
     private Image healthBarColourRect;
-    
     [SerializeField]
     private Color goodHealthColor;
     [SerializeField]
@@ -16,7 +15,6 @@ public class PlayerCanvas : MonoBehaviour
     private Color badHealthColor;
     [SerializeField]
     private Text moneyText;
-
 
     // Start is called before the first frame update
     void Start()
