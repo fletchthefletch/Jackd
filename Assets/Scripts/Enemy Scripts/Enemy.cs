@@ -84,8 +84,8 @@ public class Enemy : MonoBehaviour
         {
             case 0:
                 // Cow
-                enemyHeadButtDamage = 0.15f;
-                enemyKickDamage = 0.25f;
+                enemyHeadButtDamage = 0.1f;
+                enemyKickDamage = 0.125f;
                 rotationSpeed = 1f;
                 gallopSpeed = 1.2f;
                 seenDepth = 7f;
@@ -94,13 +94,13 @@ public class Enemy : MonoBehaviour
                 break;
             case 1:
                 // Bull
-                enemyHeadButtDamage = 0.35f;
-                enemyKickDamage = 0.3f;
-                rotationSpeed = 1.5f;
+                enemyHeadButtDamage = 0.2f;
+                enemyKickDamage = 0.25f;
+                rotationSpeed = 1f;
                 gallopSpeed = 1.6f;
                 seenDepth = 7f;
                 chaseDepth = 3f;
-                setEnemyHealth(2f);
+                setEnemyHealth(1.5f);
                 break;
         }
     }
@@ -164,14 +164,14 @@ public class Enemy : MonoBehaviour
             // Player has been kicked!
             // Kick range
             playlist.playInteractionSound("stab", true);
-            player.takeDamage(enemyKickDamage); // 0.25f
+            player.takeDamage(enemyKickDamage); 
         }
         else if (dot > 0.75)
         {
             // Player has been headbutted!
             // Headbutt range
             playlist.playInteractionSound("stab", true);
-            player.takeDamage(enemyHeadButtDamage); // 0.15f
+            player.takeDamage(enemyHeadButtDamage);
         }
     }
 
@@ -352,21 +352,6 @@ public class Enemy : MonoBehaviour
             player.setPlayerScore(enemyScoreValue); ;
             setEnemyHealth(0f);
             return false;
-
-        }
-    }
-    public void heal(float healAmount)
-    {
-        float res = enemyHealth + healAmount;
-        if (res <= 1f)
-        {
-            setEnemyHealth(res);
-            return;
-        }
-        else
-        {
-            setEnemyHealth(1f);
-            return;
 
         }
     }

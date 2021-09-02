@@ -11,7 +11,6 @@ public class LoadGame : MonoBehaviour
     public void LoadLevel(int sceneIndex)
     {
         StartCoroutine(playSound(sceneIndex));
-
     }
 
     IEnumerator playSound(int sceneIndex) 
@@ -25,6 +24,5 @@ public class LoadGame : MonoBehaviour
         // Load next scene
         LevelLoader.setSceneAfterLoading("MainDesertScene");
         SceneManager.LoadScene(1, LoadSceneMode.Single); // Load loading scene, and remove this scene
-    
     }
 }
