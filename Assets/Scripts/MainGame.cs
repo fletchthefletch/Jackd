@@ -43,6 +43,7 @@ public class MainGame : MonoBehaviour
         gameObjectives = FindObjectOfType<Objectives>();
         exiter = FindObjectOfType<ExitToMenu>();
         eManager = FindObjectOfType<EnemyManager>();
+        Cursor.visible = false;
     }
 
     private void Update()

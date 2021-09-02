@@ -36,6 +36,7 @@ public class PauseMenu : MonoBehaviour
     public void closePauseMenu()
     {
         // Make menu inactive
+        Cursor.visible = false;
         menu.SetActive(false);
         menuIsOpen = false;
         playlist.playInteractionSound("closingMenuSound", true);
@@ -77,6 +78,7 @@ public class PauseMenu : MonoBehaviour
 
         menu.SetActive(true);
         menuIsOpen = true;
+        Cursor.visible = true;
     }
 
     public void playButtonHover() 
