@@ -3429,7 +3429,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590029948}
-  m_LocalRotation: {x: 0.12241912, y: -0.408513, z: 0.055393633, w: 0.902808}
+  m_LocalRotation: {x: -0.021812439, y: 0.9777878, z: -0.13258615, w: -0.16086096}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -8884,7 +8884,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: 0.0022301713, y: -0.44489732, z: 0.0011078846, w: 0.8955782}
+  m_LocalRotation: {x: -0.00031518878, y: 0.99195373, z: -0.0024700677, w: -0.12657657}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11142,8 +11142,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155955481}
-  m_LocalRotation: {x: 0.15513279, y: -0.4062312, z: 0.07019627, w: 0.89776534}
-  m_LocalPosition: {x: -270.92767, y: 2.29, z: 46.3002}
+  m_LocalRotation: {x: -0.02764132, y: 0.9723263, z: -0.16801679, w: -0.15996242}
+  m_LocalPosition: {x: -272.68973, y: 2.7677784, z: 41.874443}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1086511275}
@@ -12583,7 +12583,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   beanstalkMaxSize: 511
   beanstalkStartingSize: 0
-  timeUntilBeanStalkIsFullyGrown: 300
+  timeUntilBeanStalkIsFullyGrown: 250
   beanTime: 0
 --- !u!4 &1438734646
 Transform:
@@ -13474,7 +13474,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625996802}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -270.92767, y: 2.29, z: 46.3002}
+  m_LocalPosition: {x: -272.68973, y: 2.7677784, z: 41.874443}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1661882871}
@@ -13768,7 +13768,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661882869}
-  m_LocalRotation: {x: 0.1551328, y: -0.4062312, z: 0.07019627, w: 0.8977653}
+  m_LocalRotation: {x: -0.027641317, y: 0.9723263, z: -0.16801676, w: -0.15996246}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13832,7 +13832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWave: 0
-  TimeBetweenWaves: 30
+  TimeBetweenWaves: 59
   numberOfWaves: 5
   waveBannerDisplayTime: 5
   waveCounterUI: {fileID: 122592479}
@@ -16538,7 +16538,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148970458272}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 49}
+  m_LocalPosition: {x: 0, y: 0, z: 38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 572617755100877075}
@@ -16554,7 +16554,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50.799988, y: 0}
+  m_AnchoredPosition: {x: 50.799988, y: 0.47777843}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &920437769074474149

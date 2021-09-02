@@ -127,7 +127,6 @@ public class EnemyManager : MonoBehaviour
         
         if (localClosest != null && localClosest != closestEnemyObject)
         {
-            Debug.Log("Changing");
             // Enable closest enemy
             closestEnemyObject = localClosest;
             closestEnemy = localClosest.GetComponent<Enemy>();

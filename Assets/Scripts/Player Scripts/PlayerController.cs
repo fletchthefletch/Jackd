@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private PlayListCycler playlist;
 
     private bool isClimbing = false;
-    private float maxClimbHeight = 85f;
+    private float maxClimbHeight = 88f;
     private float climbRate = 2f;
     private MainGame game;
     private bool hasWon = false;

@@ -72,18 +72,7 @@ public class Enemy : MonoBehaviour
 
     public void setEnabled(bool enable)
     {
-        this.enabledEnem = enable;
-
-        //Deletecode
-        if (enabledEnem)
-        {
-            iconRenderer.color = Color.blue;
-        }
-        else
-        {
-            iconRenderer.color = Color.red;
-        }
-        
+        this.enabledEnem = enable;        
     }
     public bool getEnabled()
     {
@@ -256,7 +245,8 @@ public class Enemy : MonoBehaviour
         }
 
         getDistanceToPlayer();
-        
+        rotateTowardsPlayer();
+
         if (anim.GetBool("stopMoving"))
         {
             if (oneMoo)
@@ -311,7 +301,6 @@ public class Enemy : MonoBehaviour
 
 
             // Enemy can see player
-            rotateTowardsPlayer();
             anim.SetBool("hasSeenPlayer", true);
             anim.SetBool("isHungry", false);
             eatTimer = 0f;
