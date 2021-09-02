@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private PlayListCycler playlist;
 
     private bool isClimbing = false;
-    private float maxClimbHeight = 92f;
+    private float maxClimbHeight = 85f;
     private float climbRate = 2f;
     private MainGame game;
     private bool hasWon = false;
@@ -233,6 +233,13 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // deletecode
+            if (animator.GetBool("isClimbing"))
+            {
+                return;
+            }
+
+
             // Falling / Jumping
             m_speedY -= GRAVITY * Time.deltaTime;
             if (transform.position.y > 10f && !animator.GetBool("canFall"))

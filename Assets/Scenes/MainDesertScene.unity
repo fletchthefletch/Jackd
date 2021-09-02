@@ -8884,7 +8884,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: 0.0024444007, y: 0.1908959, z: -0.0004753695, w: 0.98160714}
+  m_LocalRotation: {x: 0.0024498256, y: 0.17933388, z: -0.00044657793, w: 0.98378515}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11142,7 +11142,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155955481}
-  m_LocalRotation: {x: 0.16566335, y: 0.2277903, z: -0.039361894, w: 0.9587064}
+  m_LocalRotation: {x: 0.16566335, y: 0.2277903, z: -0.03936188, w: 0.9587064}
   m_LocalPosition: {x: -270.83972, y: 2.29, z: 29.34712}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -12583,7 +12583,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   beanstalkMaxSize: 511
   beanstalkStartingSize: 0
-  timeUntilBeanStalkIsFullyGrown: 10
+  timeUntilBeanStalkIsFullyGrown: 30
   beanTime: 0
 --- !u!4 &1438734646
 Transform:
@@ -13832,7 +13832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWave: 0
-  TimeBetweenWaves: 21
+  TimeBetweenWaves: 5
   numberOfWaves: 5
   waveBannerDisplayTime: 5
   waveCounterUI: {fileID: 122592479}

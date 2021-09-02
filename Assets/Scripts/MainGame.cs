@@ -35,7 +35,6 @@ public class MainGame : MonoBehaviour
     private bool playerDefeated = false;
     public EnemyManager eManager;
 
-
     void Start()
     {
         playlist = FindObjectOfType<PlayListCycler>();
