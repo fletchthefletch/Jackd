@@ -3429,7 +3429,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590029948}
-  m_LocalRotation: {x: 0.13072903, y: 0.22906978, z: -0.031061444, w: 0.96409136}
+  m_LocalRotation: {x: 0.13072902, y: 0.22906972, z: -0.031061433, w: 0.96409136}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -8884,7 +8884,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: 0.0024444112, y: 0.1908959, z: -0.00047537155, w: 0.98160714}
+  m_LocalRotation: {x: 0.0024444007, y: 0.1908959, z: -0.0004753695, w: 0.98160714}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9005,7 +9005,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: 1
   playerUI: {fileID: 1114104089}
-  anim: {fileID: 0}
+  anim: {fileID: 755216012}
 --- !u!4 &777917267 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 482546, guid: 8a13b3dbbf597744192ac4a84ebb93c6, type: 3}
@@ -12583,7 +12583,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   beanstalkMaxSize: 511
   beanstalkStartingSize: 0
-  timeUntilBeanStalkIsFullyGrown: 300
+  timeUntilBeanStalkIsFullyGrown: 10
   beanTime: 0
 --- !u!4 &1438734646
 Transform:
@@ -13744,7 +13744,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
+  m_LookAt: {fileID: 1883367911}
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 40
@@ -13793,8 +13793,8 @@ MonoBehaviour:
   fadeScene: {fileID: 3619478393437976754}
   pauseMenu: {fileID: 1299660079}
   player: {fileID: 755216015}
-  gameObjectives: {fileID: 0}
-  moneyText: {fileID: 0}
+  gameObjectives: {fileID: 293911467}
+  moneyText: {fileID: 1661217237}
   timeUntilExitAfterVictory: 6
   timeUntilExitAfterDefeat: 4
   exiter: {fileID: 1661914998}
@@ -13832,7 +13832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWave: 0
-  TimeBetweenWaves: 30
+  TimeBetweenWaves: 21
   numberOfWaves: 5
   waveBannerDisplayTime: 5
   waveCounterUI: {fileID: 122592479}
@@ -16527,6 +16527,7 @@ MonoBehaviour:
   m_jumpHeight: 5
   m_jumpControlAmount: 2
   m_turnSpeed: 300
+  fallPrep: {fileID: 424568403}
   cam: {fileID: 1155955485}
   damageRange: 2
 --- !u!224 &919132148970458275

@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     private float enemyHealth;
     private float currentSpeed = 0f;
     private float rotationSpeed = 0.7f;
-    private float seenDepth = 10.0f;
+    private float seenDepth = 10f;
     private float chaseDepth = 3f;
     private float enemyKickDamage = 0.25f;
     private float enemyHeadButtDamage = 0.15f;
@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
     private Color healthBadColor;
     [SerializeField]
     private Color healthAverageColor; 
-
+    
 
     void Start()
     {
@@ -73,6 +73,15 @@ public class Enemy : MonoBehaviour
     public void setEnabled(bool enable)
     {
         this.enabledEnem = enable;
+
+        //Deletecode
+        if (enabledEnem)
+        {
+
+
+            iconRenderer.color = Color.blue;
+        }
+        
     }
     public bool getEnabled()
     {
@@ -88,7 +97,7 @@ public class Enemy : MonoBehaviour
                 enemyKickDamage = 0.25f;
                 rotationSpeed = 1f;
                 gallopSpeed = 1.6f;
-                chaseDepth = 3f;
+                chaseDepth = 3f; 
                 setEnemyHealth(1f);
                 break;
             case 1:
@@ -240,8 +249,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        dist = target.transform.position - transform.position;
-        sqrLen = dist.sqrMagnitude;
+        getDistanceToPlayer();
 
         rotateTowardsPlayer();
 
@@ -283,7 +291,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-
+            
             if (!enabledEnem)
             {
                 if (anim.GetBool("isGalloping"))
@@ -296,6 +304,7 @@ public class Enemy : MonoBehaviour
                 }
                 return;
             }
+            
 
             // Enemy can see player
             anim.SetBool("hasSeenPlayer", true);

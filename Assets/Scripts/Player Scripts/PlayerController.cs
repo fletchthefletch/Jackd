@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private Transform playerCam;
 
     // Variables for falling
+    [SerializeField]
     private GameObject fallPrep;
     private float fallBuffer = 2f;
 

@@ -40,6 +40,7 @@ public class EnemyManager : MonoBehaviour
     // Enemies
     private List<GameObject> enemies;
     private GameObject closestEnemyObject = null;
+    private Enemy closestEnemy = null;
 
     [SerializeField]
     private List<GameObject> spawnPointObjects;
@@ -93,9 +94,7 @@ public class EnemyManager : MonoBehaviour
 
     private void checkClosestEnemy()
     {
-        Enemy closestEnemy = null;
         float smallestDist = -1f;
-        //Debug.Log(enemies.Count);
         foreach (GameObject g in enemies)
         { 
             Enemy e = g.GetComponent<Enemy>();
@@ -108,7 +107,7 @@ public class EnemyManager : MonoBehaviour
                 closestEnemyObject = g;
                 continue;
             }
-            if (dist <= smallestDist)
+            else if (dist <= smallestDist)
             {
                 // Disable enemy
                 closestEnemy.setEnabled(false);
@@ -152,23 +151,21 @@ public class EnemyManager : MonoBehaviour
         }
 
         checkClosestEnemy(); // Checks the enemy closest to the player
-
         if (currentWave < numberOfWaves)
         {
             updateWaveTime();
+            return;
         }
-        else if (!allWavesFinished) {
-            // Check if all the enemies in the final wave are dead
-            if (enemies.Count > 0)
+        // Check if all the enemies in the final wave are dead
+        if (enemies.Count == 0)
+        {
+            if (!allWavesFinished)
             {
-                // At least one enemy is still alive
-                return;
+                // This gets called once after the final wave has been generated
+                nextWaveIn = 0.0f;
+                allWavesFinished = true;
+                game.playerCompletedObjective();
             }
-            
-            // This gets called once after the final wave has been generated
-            nextWaveIn = 0.0f;
-            allWavesFinished = true;
-            game.playerCompletedObjective();
         }
     }
 
@@ -235,6 +232,7 @@ public class EnemyManager : MonoBehaviour
             currentSpawnPointIndex++;
         }
 
+
         // Instantiate bulls
         for (int i = 0; i < numOfBulls; i++)
         {
@@ -270,19 +268,19 @@ public class EnemyManager : MonoBehaviour
                 break;
             case 1:
                 Debug.Log("Second Wave Coming...");
-                StartCoroutine(spawnEnemiesForWave(3, 0));
+                //StartCoroutine(spawnEnemiesForWave(3, 0));
                 break;
             case 2:
                 Debug.Log("Third Wave Coming...");
-                StartCoroutine(spawnEnemiesForWave(0, 1));
+               // StartCoroutine(spawnEnemiesForWave(1, 0));
                 break;
             case 3:
                 Debug.Log("Fourth Wave Coming...");
-                StartCoroutine(spawnEnemiesForWave(2, 1));
+                //StartCoroutine(spawnEnemiesForWave(3, 0));
                 break;
             case 4:
                 Debug.Log("Fifth Wave Coming...");
-                StartCoroutine(spawnEnemiesForWave(1, 2));
+                //StartCoroutine(spawnEnemiesForWave(3, 0));
                 break;
         }
     }

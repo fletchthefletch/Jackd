@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float playerHealth = 2f;
+    private float playerHealth = 1f;
     private int playerScore; // Player score is calculated as the total amount of money the player has earned
     private int playerMoney;
 
