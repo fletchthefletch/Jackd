@@ -95,38 +95,43 @@ public class EnemyManager : MonoBehaviour
     private void checkClosestEnemy()
     {
         float smallestDist = -1f;
+
+        int i = 0;
         foreach (GameObject g in enemies)
         { 
             Enemy e = g.GetComponent<Enemy>();
-            float dist = e.getDistanceToPlayer();
+            float dist = e.checkDistanceToPlayer();
             if (closestEnemy == null)
             {
-                // First enemy
+                // First time this runs in the game
                 smallestDist = dist;
                 closestEnemy = e;
                 closestEnemyObject = g;
+                i++;
                 continue;
             }
-            else if (dist <= smallestDist)
+            
+            if (dist <= smallestDist)
             {
-                // Disable enemy
+                // Disable old 'closest' enemy
                 closestEnemy.setEnabled(false);
+                // Assign new 'closest' enemy
                 closestEnemy = e;
                 closestEnemyObject = g;
             }
             else
             {
-                // Disable enemy
+                // Disable enemy - enemy is too far away
                 e.setEnabled(false);
             }
+            i++;
         }
-        if (closestEnemy == null)
+        if (closestEnemy != null)
         {
-            return;
+            // Enable closest enemy
+            closestEnemy.setEnabled(true);
         }
-
-        // Enable closest enemy
-        closestEnemy.setEnabled(true);
+        print(i);
     }
 
     void Update()
@@ -150,7 +155,9 @@ public class EnemyManager : MonoBehaviour
             }
         }
 
-        checkClosestEnemy(); // Checks the enemy closest to the player
+        // Checks the enemy closest to the player
+        checkClosestEnemy(); 
+
         if (currentWave < numberOfWaves)
         {
             updateWaveTime();
@@ -268,19 +275,19 @@ public class EnemyManager : MonoBehaviour
                 break;
             case 1:
                 Debug.Log("Second Wave Coming...");
-                //StartCoroutine(spawnEnemiesForWave(3, 0));
+                StartCoroutine(spawnEnemiesForWave(3, 0));
                 break;
             case 2:
                 Debug.Log("Third Wave Coming...");
-               // StartCoroutine(spawnEnemiesForWave(1, 0));
+                StartCoroutine(spawnEnemiesForWave(0, 1));
                 break;
             case 3:
                 Debug.Log("Fourth Wave Coming...");
-                //StartCoroutine(spawnEnemiesForWave(3, 0));
+                StartCoroutine(spawnEnemiesForWave(2, 1));
                 break;
             case 4:
                 Debug.Log("Fifth Wave Coming...");
-                //StartCoroutine(spawnEnemiesForWave(3, 0));
+                StartCoroutine(spawnEnemiesForWave(1, 2));
                 break;
         }
     }

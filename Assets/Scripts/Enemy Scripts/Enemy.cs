@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float gallopSpeed = 1.6f;
+    private float gallopSpeed;
     private float enemyHealth;
     private float currentSpeed = 0f;
-    private float rotationSpeed = 0.7f;
-    private float seenDepth = 10f;
-    private float chaseDepth = 3f;
+    private float rotationSpeed;
+    private float seenDepth;
+    private float chaseDepth;
     private float enemyKickDamage = 0.25f;
     private float enemyHeadButtDamage = 0.15f;
     private float displayAfterDeathTime = 5f;
@@ -77,9 +77,11 @@ public class Enemy : MonoBehaviour
         //Deletecode
         if (enabledEnem)
         {
-
-
             iconRenderer.color = Color.blue;
+        }
+        else
+        {
+            iconRenderer.color = Color.red;
         }
         
     }
@@ -96,7 +98,8 @@ public class Enemy : MonoBehaviour
                 enemyHeadButtDamage = 0.15f;
                 enemyKickDamage = 0.25f;
                 rotationSpeed = 1f;
-                gallopSpeed = 1.6f;
+                gallopSpeed = 1.2f;
+                seenDepth = 7f;
                 chaseDepth = 3f; 
                 setEnemyHealth(1f);
                 break;
@@ -105,14 +108,14 @@ public class Enemy : MonoBehaviour
                 enemyHeadButtDamage = 0.35f;
                 enemyKickDamage = 0.3f;
                 rotationSpeed = 1.5f;
-                gallopSpeed = 1.9f;
+                gallopSpeed = 1.6f;
+                seenDepth = 7f;
                 chaseDepth = 3f;
                 setEnemyHealth(2f);
                 break;
         }
     }
   
-
     private IEnumerator enemyDeath()
     {
         anim.SetBool("isAlive", false);
@@ -160,8 +163,6 @@ public class Enemy : MonoBehaviour
     public void headButtHit()
     {
         // Check distance
-        dist = target.transform.position - transform.position;
-        sqrLen = dist.sqrMagnitude;
         if (sqrLen > hitRange * hitRange)
         {
             return;
@@ -205,9 +206,14 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
-    public float getDistanceToPlayer()
+    public float checkDistanceToPlayer()
     {
         return sqrLen;    
+    }
+    private void getDistanceToPlayer()
+    {
+        dist = target.transform.position - transform.position;
+        sqrLen = dist.sqrMagnitude;
     }
 
     public void setGamePaused(bool val)
@@ -250,9 +256,7 @@ public class Enemy : MonoBehaviour
         }
 
         getDistanceToPlayer();
-
-        rotateTowardsPlayer();
-
+        
         if (anim.GetBool("stopMoving"))
         {
             if (oneMoo)
@@ -304,9 +308,10 @@ public class Enemy : MonoBehaviour
                 }
                 return;
             }
-            
+
 
             // Enemy can see player
+            rotateTowardsPlayer();
             anim.SetBool("hasSeenPlayer", true);
             anim.SetBool("isHungry", false);
             eatTimer = 0f;
