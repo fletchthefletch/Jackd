@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     private float displayAfterDeathTime = 5f;
     private float timeUntilEnemyEats = 5f;
     private float eatTimer = 0f;
-    private float sqrLen;
+    private float sqrLen = 1000000f;
     private Vector3 dist;
     private bool isAlive;
     public int id;

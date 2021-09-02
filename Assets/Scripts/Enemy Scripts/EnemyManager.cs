@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class EnemyManager : MonoBehaviour
 {
+
+    private float actualSmallestDist = 1000000f;
+
+
     [SerializeField]
     private int currentWave;
     [SerializeField]
@@ -94,44 +98,43 @@ public class EnemyManager : MonoBehaviour
 
     private void checkClosestEnemy()
     {
-        float smallestDist = -1f;
-
-        int i = 0;
+        GameObject localClosest = null;
+        float localSmallestDist = 100000f;
         foreach (GameObject g in enemies)
-        { 
+        {
             Enemy e = g.GetComponent<Enemy>();
             float dist = e.checkDistanceToPlayer();
-            if (closestEnemy == null)
+
+
+            if (dist < localSmallestDist)
             {
-                // First time this runs in the game
-                smallestDist = dist;
-                closestEnemy = e;
-                closestEnemyObject = g;
-                i++;
-                continue;
-            }
-            
-            if (dist <= smallestDist)
-            {
-                // Disable old 'closest' enemy
-                closestEnemy.setEnabled(false);
+                if (localClosest != null)
+                {
+                    // Disable old 'closest' enemy
+                    localClosest.GetComponent<Enemy>().setEnabled(false);
+                }
+
                 // Assign new 'closest' enemy
-                closestEnemy = e;
-                closestEnemyObject = g;
+                localClosest = g;
+                localSmallestDist = dist;
             }
-            else
+            else if (dist >= localSmallestDist)
             {
                 // Disable enemy - enemy is too far away
                 e.setEnabled(false);
             }
-            i++;
         }
-        if (closestEnemy != null)
+        
+        if (localClosest != null && localClosest != closestEnemyObject)
         {
+            Debug.Log("Changing");
             // Enable closest enemy
+            closestEnemyObject = localClosest;
+            closestEnemy = localClosest.GetComponent<Enemy>();
             closestEnemy.setEnabled(true);
+            actualSmallestDist = localSmallestDist;
         }
-        print(i);
+
     }
 
     void Update()
