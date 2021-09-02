@@ -33,21 +33,22 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     private Color failureColor;
     private bool playerDefeated = false;
-
-
+    public EnemyManager eManager;
 
     void Start()
     {
         playlist = FindObjectOfType<PlayListCycler>();
         playlist.playNextSongInPlaylist();
-        fadeScene.fadeInCurrentScene();
         player = FindObjectOfType<Player>();
         gameObjectives = FindObjectOfType<Objectives>();
         exiter = FindObjectOfType<ExitToMenu>();
+        eManager = FindObjectOfType<EnemyManager>();
+        Cursor.visible = false;
     }
 
     private void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // Show pause menu
@@ -60,29 +61,6 @@ public class MainGame : MonoBehaviour
                 // Hide pause menu
                 pauseMenu.closePauseMenu();
             }
-        }
-     
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (player.takeDamage(0.15f))
-            {
-                Debug.Log("Player is still alive");
-            }
-            else
-            {
-                Debug.Log("Player is dead!");
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            gameObjectives.startNextObjective();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            player.heal(0.05f);
-            Debug.Log("Healing player...");
         }
 
         // Check player health - if player health is <= 0, player has lost the game
@@ -137,7 +115,7 @@ public class MainGame : MonoBehaviour
                 gameObjectives.plantBeans();
                 break;
             case "waves":
-                //gameObjectives.fightWaves();
+                gameObjectives.startNextObjective();
                 break;
             case "beanstalk":
                 gameObjectives.startNextObjective();

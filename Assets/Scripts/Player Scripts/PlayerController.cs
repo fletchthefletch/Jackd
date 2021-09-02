@@ -1,4 +1,5 @@
 using UnityEngine;
+// This class manages movement of the player instance
 
 public class PlayerController : MonoBehaviour
 {
@@ -7,30 +8,16 @@ public class PlayerController : MonoBehaviour
     // Reference to the controller
     [SerializeField]
     private CharacterController controller;
-
     [SerializeField]
     private Animator animator;
-
     [SerializeField]
     private PauseMenu pauseMenu;
-
-    // Current Player Speed
     public float m_speed = 0f;
-
-    // Walk speed
     public float m_walkSpeed = 1.5f;
-
-    // Run speed
     public float m_runSpeed = 3f;
-
-    // Vertical speed
     public float m_speedY = 3f;
-
-    //Jump height
     public float m_jumpHeight = 5f;
     public float m_jumpControlAmount = 2f;
-
-    // Turn Speed
     public float m_turnSpeed = 300f;
 
     // Movement direction of the player
@@ -42,7 +29,6 @@ public class PlayerController : MonoBehaviour
     // Gravity
     private const float GRAVITY = 9.86f;
     private const float GRAVITY_STICK = 0.3f;
-
     private Transform playerCam;
 
     // Variables for falling
@@ -50,33 +36,18 @@ public class PlayerController : MonoBehaviour
     private GameObject fallPrep;
     private float fallBuffer = 2f;
 
-    // Player state
-    public enum MoveState
-    {
-        Idle,
-        Walk,
-        Run,
-        Jump,
-    };
-
-    // Current player state
-    [SerializeField] 
-    private MoveState m_moveState;
-
-    [SerializeField] 
-    private float smoothSpeed;
-
     // Main game camera
-    [SerializeField] 
+    [SerializeField]
     private Camera cam;
-
     private PlayListCycler playlist;
 
     private bool isClimbing = false;
-    private float maxClimbHeight = 92f;
+    private float maxClimbHeight = 88f;
     private float climbRate = 2f;
     private MainGame game;
     private bool hasWon = false;
+    [SerializeField]
+    private float damageRange = 10f;
 
     void Start()
     {
@@ -96,13 +67,12 @@ public class PlayerController : MonoBehaviour
         }
         // Get main camera
         playerCam = cam.transform;
-        m_moveState = MoveState.Idle;
 
         // Get playlist
         playlist = FindObjectOfType<PlayListCycler>();
     }
     public void playStep()
-    { 
+    {
         playlist.playPlayerSound("Step", true);
     }
     public void playJump()
@@ -135,7 +105,13 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("speed", 0f);
             return; // Do not update player and state
         }
+        if (game.player.getPlayerHealth() <= 0f)
+        {
+            // Don't receive player movement - player is dead
+            return;
+        }
         // Update current player state and movement
+        UpdatePlayerFightingState();
         UpdatePlayerState();
         UpdateHorizontalMovement();
         if (isClimbing && transform.position.y < maxClimbHeight)
@@ -145,11 +121,50 @@ public class PlayerController : MonoBehaviour
         }
         UpdateVerticalMovement();
         UpdateRotation();
-        
+
         // Main Move   
         controller.Move(movement * Time.deltaTime + movementJump * Time.deltaTime);
     }
- 
+    public void hitEnemy(float damageDealt)
+    {
+        // Get distance to the closest enemy
+        GameObject enemy = game.eManager.getClosestEnemy();
+        if (enemy != null)
+        {
+
+            Vector3 dist = enemy.transform.position - transform.position;
+            float sqrLen = dist.sqrMagnitude;
+
+            if (sqrLen < damageRange * damageRange)
+            {
+                enemy.GetComponent<Enemy>().takeDamage(damageDealt);
+            }
+        }
+    }
+
+    private void UpdatePlayerFightingState()
+    {
+        // Punching
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            animator.SetBool("punch", true);
+        }
+        else
+        {
+            animator.SetBool("punch", false);
+
+        }
+        // Kicking
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            animator.SetBool("kick", true);
+        }
+        else
+        {
+            animator.SetBool("kick", false);
+        }
+    }
+
     private void UpdateRotation()
     {
         if (inputDirection != Vector3.zero)            
@@ -209,18 +224,23 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("canFall", false);
 
             //If we press space and not already jumping and if we are not crawling or crouching, then jump
-            if (Input.GetKeyDown(KeyCode.Space) && !animator.GetBool("jump")) 
+            if (Input.GetKey(KeyCode.Space) && !animator.GetBool("jump")) 
             {
                 // Jump
                 m_speedY = m_jumpHeight;
                 animator.SetBool("jump", true);
-                m_moveState = MoveState.Jump;       
             }
         }
         else
         {
+            // deletecode
+            if (animator.GetBool("isClimbing"))
+            {
+                return;
+            }
+
+
             // Falling / Jumping
-            m_moveState = MoveState.Jump;
             m_speedY -= GRAVITY * Time.deltaTime;
             if (transform.position.y > 10f && !animator.GetBool("canFall"))
             {
@@ -254,14 +274,12 @@ public class PlayerController : MonoBehaviour
                 {
                     // Run
                     m_speed = m_runSpeed;
-                    m_moveState = MoveState.Run;
                     animator.SetBool("running", true);
                 } 
                 else
                 {
                     // Walk
                     m_speed = m_walkSpeed;
-                    m_moveState = MoveState.Walk;
                     animator.SetBool("running", false);
                 }
             }
@@ -269,7 +287,6 @@ public class PlayerController : MonoBehaviour
             {
                 // Idle
                 m_speed = 0; 
-                m_moveState = MoveState.Idle;
                 animator.SetBool("running", false);
             }   
         } 

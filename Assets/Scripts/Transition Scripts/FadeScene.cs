@@ -6,6 +6,9 @@ public class FadeScene : MonoBehaviour
     private Animator anim;
     [SerializeField] 
     private GameObject obj;
+    [SerializeField]
+    private float fadeInDuration = 3f;
+
 
     private void Start()
     {
@@ -22,20 +25,17 @@ public class FadeScene : MonoBehaviour
     }
     IEnumerator fadeOut()
     {
-        // Start game close animation
         // Fade scene
         anim = obj.GetComponent<Animator>();
         anim.SetBool("StartNextScene", true);
-
         yield return null;
     }
     IEnumerator fadeIn()
     {
-        // Start game close animation
         // Fade scene
         anim = obj.GetComponent<Animator>();
         anim.SetBool("StartNextScene", false);
 
-        yield return null;
+        yield return new WaitForSecondsRealtime(fadeInDuration);
     }
 }

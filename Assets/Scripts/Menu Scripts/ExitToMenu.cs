@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ExitToMenu : MonoBehaviour
 {
-    [SerializeField] 
-    private int timeUntilExitingStarts;
+    [SerializeField]
+    private float timeUntilExit = 3f;
     [SerializeField]
     private FadeScene fader;
     [SerializeField]
@@ -14,10 +14,17 @@ public class ExitToMenu : MonoBehaviour
 
     public void exitToMenu()
     {
+        StartCoroutine(exitBackToMenu());
+    }
+    private IEnumerator exitBackToMenu()
+    {
         faderAud.fadeOutAudio();
         fader.fadeOutCurrentScene();
         LevelLoader.setSceneAfterLoading("MainMenuScene");
 
+        // Delay
+        yield return new WaitForSecondsRealtime(timeUntilExit);
+        
         // Load loading screen 
         SceneManager.LoadScene("LoadingScene", LoadSceneMode.Single);
 

@@ -1,10 +1,10 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LoadGame : MonoBehaviour
 {
+#pragma warning disable CS0108 
     public AudioClip audio;
     public AudioSource source;
 

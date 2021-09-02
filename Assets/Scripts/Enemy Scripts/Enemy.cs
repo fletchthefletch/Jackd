@@ -1,41 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+// This class manages an enemy instance
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private float walkSpeed = 1.4f;
-    [SerializeField]
-    private float gallopSpeed = 2.1f;
-    [SerializeField]
+    private float gallopSpeed;
     private float enemyHealth;
-    [SerializeField]
     private float currentSpeed = 0f;
-    [SerializeField]
-    private float rotationSpeed = 2f;
-
-    [SerializeField]
-    private float seenDepth = 10.0f;
-    [SerializeField]
+    private float rotationSpeed;
+    private float seenDepth;
     private float chaseDepth;
-
-    [SerializeField]
-    private bool isGalloping = false;
-    [SerializeField]
-    private bool hasSeenPlayer = false;
-    [SerializeField]
-    private bool isEating = false;
-
-    private bool stopMoving = false;
-    private bool kickToggle = false;
-
-
-    [SerializeField]
+    private float enemyKickDamage = 0.25f;
+    private float enemyHeadButtDamage = 0.15f;
+    private float displayAfterDeathTime = 5f;
     private float timeUntilEnemyEats = 5f;
     private float eatTimer = 0f;
-    private float sqrLen;
+    private float sqrLen = 1000000f;
     private Vector3 dist;
+    private bool isAlive;
+    public int id;
+    private bool oneMoo = true;
+    private float hitRange = 2.3f;
+    private int enemyScoreValue = 50;
+    private bool gameIsPaused = false;
+    private bool enabledEnem = true;
 
     // Gameobjects
     private Player player;
@@ -43,16 +31,34 @@ public class Enemy : MonoBehaviour
     private PlayListCycler playlist;
     private CharacterController enemyController;
     private Animator anim;
+    private EnemyManager manager;
+    private PauseMenu menu;
 
+    // Enemy minimap icon
+    [SerializeField]
+    private GameObject icon;
+    private SpriteRenderer iconRenderer;
+    [SerializeField]
+    private Color healthBadColor;
+    [SerializeField]
+    private Color healthAverageColor; 
+    
 
     void Start()
     {
+
+        isAlive = true;
+        this.id = 0;
+        player = FindObjectOfType<Player>();
         setEnemyHealth(1f);
+        target = player.transform;
 
         // Retrieve game objects
         enemyController = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
-        player = FindObjectOfType<Player>();
+        manager = FindObjectOfType<EnemyManager>();
+        iconRenderer = icon.GetComponent<SpriteRenderer>();
+
         if (player == null)
         {
             Debug.Log("Could not locate player");
@@ -62,48 +68,122 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("Could not locate playlist in enemy class");
         }
-        target = player.transform;
-
-        chaseDepth = seenDepth / 2f;
     }
 
+    public void setEnabled(bool enable)
+    {
+        this.enabledEnem = enable;        
+    }
+    public bool getEnabled()
+    {
+        return enabledEnem;
+    }
+    public void setEnemy(int enemyType)
+    {
+        switch (enemyType)
+        {
+            case 0:
+                // Cow
+                enemyHeadButtDamage = 0.15f;
+                enemyKickDamage = 0.25f;
+                rotationSpeed = 1f;
+                gallopSpeed = 1.2f;
+                seenDepth = 7f;
+                chaseDepth = 3f; 
+                setEnemyHealth(1f);
+                break;
+            case 1:
+                // Bull
+                enemyHeadButtDamage = 0.35f;
+                enemyKickDamage = 0.3f;
+                rotationSpeed = 1.5f;
+                gallopSpeed = 1.6f;
+                seenDepth = 7f;
+                chaseDepth = 3f;
+                setEnemyHealth(2f);
+                break;
+        }
+    }
+  
+    private IEnumerator enemyDeath()
+    {
+        anim.SetBool("isAlive", false);
+
+        // Delay
+        yield return new WaitForSecondsRealtime(displayAfterDeathTime);
+
+        // Destroy enemy
+        Destroy(this.transform.gameObject);
+    }
 
     private void OnTriggerEnter(Collider other)
-    {     
+    {
+        if (!isAlive)
+        {
+            return;
+        }
         if (other.CompareTag("Player"))
         {
-            // Check the angle
-            float dot = Vector3.Dot(transform.forward, 
-               (target.position - transform.position).normalized);
+            // Enemy should stop moving
+            anim.SetBool("stopMoving", true);
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (!anim.GetBool("stopMoving"))
+        {
+            return;
+        }
+        // Check the angle
+        float dot = Vector3.Dot(transform.forward, (target.position - transform.position).normalized);
 
-            // Get back fan
-            // Get front fan
-            if (dot < -0.5)
-            {
-                // Kick
-               // kickToggle = true;
-            }
-            else 
-            {
-             //   kickToggle = false;
-            }
-            //Debug.Log(dot.ToString());
-            
+        if (dot < -0.5)
+        {
+            // Player is behind enemy --> Kick
+            anim.SetBool("isKicking", true);
+        }
+        else
+        {
+            // Player is in front of enemy --> headbutt
+            anim.SetBool("isKicking", false);
+        }
+    }
 
-            stopMoving = true;
-            //anim.SetBool("kickToggle", kickToggle);
-            //anim.SetBool("stopMoving", stopMoving);
-            
+    public void headButtHit()
+    {
+        // Check distance
+        if (sqrLen > hitRange * hitRange)
+        {
+            return;
+        }
+
+        // Check the angle
+        float dot = Vector3.Dot(transform.forward, (target.position - transform.position).normalized);
+        if (dot < -0.3)
+        {
+            // Player has been kicked!
+            // Kick range
+            playlist.playInteractionSound("stab", true);
+            player.takeDamage(enemyKickDamage); // 0.25f
+        }
+        else if (dot > 0.75)
+        {
+            // Player has been headbutted!
+            // Headbutt range
+            playlist.playInteractionSound("stab", true);
+            player.takeDamage(enemyHeadButtDamage); // 0.15f
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (!isAlive)
+        {
+            return;
+        }
         if (other.CompareTag("Player"))
         {
-            
-            stopMoving = false;
-            //anim.SetBool("stopMoving", stopMoving);
+            anim.SetBool("isKicking", false);
         }
     }
 
@@ -115,83 +195,81 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
-    /*
-    public void Update1()
+    public float checkDistanceToPlayer()
     {
-        Vector3 dist = (target.transform.position - transform.position).normalized;
-        float absX = Mathf.Abs(dist.x);
-        float absZ = Mathf.Abs(dist.z);
+        return sqrLen;    
+    }
+    private void getDistanceToPlayer()
+    {
+        dist = target.transform.position - transform.position;
+        sqrLen = dist.sqrMagnitude;
+    }
 
-        currentSpeed = 0f;
-        hasSeenPlayer = false;
-
-        if (stopMoving)
+    public void setGamePaused(bool val)
+    {
+        this.gameIsPaused = val;
+        if (val)
         {
-            isEating = false;
-            return;
-        }
-
-        if (absZ < seenDepth || absX < seenWidth) // Target player by walking
-        {
-            // Stop eating if the player is
-            isEating = false;
-            eatTimer = 0f;
-
-            hasSeenPlayer = true;
-            rotateTowardsPlayer();
-
-            if (absZ < chaseDepth || absX < chaseWidth)
-            {
-                currentSpeed = gallopSpeed;
-                isGalloping = true;
-                // Target player by walking
-                // Move enemy towards location of player
-            }
-            else
-            {
-                isGalloping = false;
-                currentSpeed = walkSpeed;
-            }
+            // Freeze current animation 
+            anim.speed = 0;
         }
         else
         {
-            isGalloping = false;
-            
-            if (eatTimer >= timeUntilEnemyEats)
-            {
-                // Start eating
-                isEating = true;
-            }
-            else
-            {
-                eatTimer += Time.deltaTime;
-            }
+            // Unfreeze animation
+            anim.speed = 1;
         }
-
-        anim.SetFloat("speed", currentSpeed);
-        anim.SetBool("isGalloping", isGalloping);
-        anim.SetBool("hasSeenPlayer", hasSeenPlayer);
-        anim.SetBool("isHungry", isEating);
-
-        transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.fixedDeltaTime);
     }
-    */
-
     public void Update()
     {
-        if (stopMoving)
+        if (id != 0)
         {
             return;
         }
+        if (!isAlive)
+        {
+            return;
+        }
+        if (gameIsPaused)
+        {
+            // Game is paused
+            return; 
+        }
+        if (enemyHealth <= 0f)
+        {
+            // Start death animation --> enemy is dead
+            if (isAlive)
+            {
+                StartCoroutine(enemyDeath());
+                isAlive = false;
+            }
+        }
 
-        dist = target.transform.position - transform.position;
-        sqrLen = dist.sqrMagnitude;
+        getDistanceToPlayer();
+        rotateTowardsPlayer();
+
+        if (anim.GetBool("stopMoving"))
+        {
+            if (oneMoo)
+            {
+                playlist.playInteractionSound("moo", true);
+                oneMoo = false;
+            }
+            if (sqrLen > chaseDepth * chaseDepth)
+            {
+                anim.SetBool("stopMoving", false);
+            }
+            else
+            {
+                return;
+            }          
+        }
 
         if (sqrLen > seenDepth * seenDepth)
         {
-           // resetEverything();
+            // Enemy can't see player
             anim.SetBool("hasSeenPlayer", false);
             anim.SetBool("isGalloping", false);
+            oneMoo = true;
             currentSpeed = 0f;
 
             if (eatTimer >= timeUntilEnemyEats)
@@ -205,51 +283,35 @@ public class Enemy : MonoBehaviour
             }
             return; // We don't care about the player's position
         }
-        
-        // Face player
-        rotateTowardsPlayer();
-
-        if (sqrLen < seenDepth * seenDepth)
+        else
         {
-            runTowardsPlayer();
+            
+            if (!enabledEnem)
+            {
+                if (anim.GetBool("isGalloping"))
+                {
+                    anim.SetBool("isGalloping", false);
+                }
+                if (anim.GetBool("hasSeenPlayer"))
+                {
+                    anim.SetBool("hasSeenPlayer", false);
+                }
+                return;
+            }
+
+
+            // Enemy can see player
+            anim.SetBool("hasSeenPlayer", true);
+            anim.SetBool("isHungry", false);
+            eatTimer = 0f;
+
+            // Move player
+            anim.SetBool("isGalloping", true);
+            currentSpeed = gallopSpeed;
+            updatePosition();
             return;
         }
    }
-    private void resetEverything()
-    {
-        walkSpeed = 1.4f;
-gallopSpeed = 2.1f;
- currentSpeed = 0f;
-rotationSpeed = 2f;
-
-seenDepth = 10.0f;
- chaseDepth = seenDepth / 2f;
-
- isGalloping = false;
- hasSeenPlayer = false;
-    isEating = false;
-    }
-
-    private void walkTowardsPlayer()
-    {
-        // Start walking towards player
-        anim.SetBool("hasSeenPlayer", true);
-        anim.SetBool("isHungry", false);
-        anim.SetBool("isGalloping", false);
-        currentSpeed = walkSpeed;
-        eatTimer = 0f;
-        updatePosition();
-    }
-    private void runTowardsPlayer()
-    {
-        // Start walking towards player
-        anim.SetBool("hasSeenPlayer", true);
-        anim.SetBool("isGalloping", true);
-        anim.SetBool("isHungry", false);
-        currentSpeed = gallopSpeed;
-        eatTimer = 0f;
-        updatePosition();
-    }
 
     private void updatePosition()
     {
@@ -257,27 +319,37 @@ seenDepth = 10.0f;
         transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.fixedDeltaTime);
     }
 
-    public void setEnemyHealth(float val)
+    private void setEnemyHealth(float val)
     {
         // Update health var
         enemyHealth = val;
         return;
     }
-    public float getEnemyHealth()
+    private float getEnemyHealth()
     {
         return enemyHealth;
     }
     public bool takeDamage(float damageAmount)
     {
+        playlist.playInteractionSound("thunk", true);
         float res = enemyHealth - damageAmount;
-        if (res >= 0f)
+        if (res > 0f)
         {
             setEnemyHealth(res);
+            if (res <= 0.25)
+            {
+                iconRenderer.color = healthBadColor;
+            }
+            else if (res <= 75)
+            {
+                iconRenderer.color = healthAverageColor;
+            }
             return true;
         }
         else
         {
             // Enemy is dead! Should destroy this enemy in the enemy manager
+            player.setPlayerScore(enemyScoreValue); ;
             setEnemyHealth(0f);
             return false;
 

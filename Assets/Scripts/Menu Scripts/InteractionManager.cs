@@ -8,6 +8,11 @@ public class InteractionManager : MonoBehaviour
     public AudioClip buttonHover;
     public AudioClip buttonClick;
 
+    private void Start()
+    {
+        Cursor.visible = true;
+    }
+
     public void playButtonClick()
     {
         source.PlayOneShot(buttonClick);

@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+// This class manages the player instance
 
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float playerHealth;
+    private float playerHealth = 1f;
     private int playerScore; // Player score is calculated as the total amount of money the player has earned
     private int playerMoney;
 
@@ -14,13 +13,15 @@ public class Player : MonoBehaviour
     private PlayListCycler playlist;
     private AudioSource heartbeatSrc;
 
-
+    [SerializeField]
+    private Animator anim;
 
     void Start()
     {
         setPlayerHealth(playerHealth);
-        setPlayerScore(0);
         playlist = FindObjectOfType<PlayListCycler>();
+        setPlayerScore(0);
+        anim = gameObject.GetComponent<Animator>();
         heartbeatSrc = playlist.getSoundSource("heartbeat", "INTERACTION");
         heartbeatSrc.loop = true;
     }
@@ -28,7 +29,7 @@ public class Player : MonoBehaviour
     {
         playerMoney += scoreIncrement;
         playerScore += scoreIncrement;
-
+        playlist.playInteractionSound("earnedMoney", true);
         // Update main high score record
         if (LevelLoader.getHighScore() < playerScore)
         {
@@ -75,7 +76,7 @@ public class Player : MonoBehaviour
                 heartbeatSrc.PlayOneShot(heartbeatSrc.clip);
             }
         }
-        if (res >= 0f)
+        if (res > 0f)
         {
             setPlayerHealth(res);
             playlist.playPlayerSound("Pain1", true);
@@ -84,6 +85,7 @@ public class Player : MonoBehaviour
         else
         {
             // Player is dead!
+            anim.SetBool("isDead", true);
             setPlayerHealth(0f);
             return false;
         }
