@@ -38,6 +38,7 @@ public class LevelLoader : MonoBehaviour
             postLoadDelay = 1;
         }
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
         StartCoroutine(LoadAsynchronously());
     }
