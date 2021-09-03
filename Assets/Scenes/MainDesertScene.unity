@@ -2427,7 +2427,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: N
+  m_Text: 'N
+
+'
 --- !u!222 &395389554
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8884,7 +8886,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687766452}
-  m_LocalRotation: {x: -0.0003379707, y: 0.99074334, z: -0.0024670532, w: -0.13572557}
+  m_LocalRotation: {x: -0.0002917919, y: 0.9931077, z: -0.0024729737, w: -0.117179066}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -11142,7 +11144,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155955481}
-  m_LocalRotation: {x: -0.027641319, y: 0.9723263, z: -0.16801679, w: -0.15996242}
+  m_LocalRotation: {x: -0.027641326, y: 0.9723263, z: -0.16801679, w: -0.15996242}
   m_LocalPosition: {x: -272.68973, y: 2.7677784, z: 41.874443}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

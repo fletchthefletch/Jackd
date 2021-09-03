@@ -43,6 +43,9 @@ public class MainGame : MonoBehaviour
         gameObjectives = FindObjectOfType<Objectives>();
         exiter = FindObjectOfType<ExitToMenu>();
         eManager = FindObjectOfType<EnemyManager>();
+
+        // Disable cursor
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
